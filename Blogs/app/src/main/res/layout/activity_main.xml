@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/BottonNav"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#FDFAFA"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/Title"
+        android:textColor="#141415"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/categoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="-:Categories:-"
+        android:textColor="#090707"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="7dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/categoryTitle">
+
+        <LinearLayout
+            android:id="@+id/category_items"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Food" />
+
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Fitness"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#D81B60" />
+
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Sports"
+                app:backgroundTint="#3949AB" />
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Music"
+                app:backgroundTint="#43A047" />
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Technology"
+                app:backgroundTint="#D32F2F" />
+
+            <Button
+                android:id="@+id/button12"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Travel"
+                app:backgroundTint="#40C4FF" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/TitleHomePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="#F4EFF2"
+        android:text="@string/titleHomePage"
+        android:textColor="#151313"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
+
+    <ScrollView
+        android:id="@+id/blogList"
+        android:layout_width="403dp"
+        android:layout_height="370dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/BottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleHomePage">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <FrameLayout
+                android:id="@+id/blogs1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#51ECE6E6"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/blogTitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Cricket Today"
+                    android:textColor="#100D0D"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/blogContent1"
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="45dp"
+                    android:shadowColor="#221E1E"
+                    android:text="@string/blogContent" />
+
+                <Button
+                    android:id="@+id/like1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="Like"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#D81B60" />
+
+                <Button
+                    android:id="@+id/cmt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="comment"
+                    android:textColor="#F6F1F1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#3949AB"
+                    app:cornerRadius="5dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/blog2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#51ECE6E6"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/blogTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Cricket Today"
+                    android:textColor="#100D0D"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/blogContent2"
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="45dp"
+                    android:shadowColor="#221E1E"
+                    android:text="@string/blogContent" />
+
+                <Button
+                    android:id="@+id/like2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="Like"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#D81B60" />
+
+                <Button
+                    android:id="@+id/cmt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="comment"
+                    android:textColor="#F6F1F1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#3949AB"
+                    app:cornerRadius="5dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/blog3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#51ECE6E6"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/blogTitle3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Cricket Today"
+                    android:textColor="#100D0D"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/blogContent3"
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="45dp"
+                    android:shadowColor="#221E1E"
+                    android:text="@string/blogContent" />
+
+                <Button
+                    android:id="@+id/like3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="Like"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#D81B60" />
+
+                <Button
+                    android:id="@+id/cmt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="comment"
+                    android:textColor="#F6F1F1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#3949AB"
+                    app:cornerRadius="5dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/blog4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#51ECE6E6"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/blogTitle4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Cricket Today"
+                    android:textColor="#100D0D"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/blogContent4"
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="45dp"
+                    android:shadowColor="#221E1E"
+                    android:text="@string/blogContent" />
+
+                <Button
+                    android:id="@+id/like4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="Like"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#D81B60" />
+
+                <Button
+                    android:id="@+id/cmt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="comment"
+                    android:textColor="#F6F1F1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#3949AB"
+                    app:cornerRadius="5dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/blog5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#51ECE6E6"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/blogTitle5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Cricket Today"
+                    android:textColor="#100D0D"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/blogContent5"
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="45dp"
+                    android:shadowColor="#221E1E"
+                    android:text="@string/blogContent" />
+
+                <Button
+                    android:id="@+id/like5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="Like"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#D81B60" />
+
+                <Button
+                    android:id="@+id/cmt5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="140dp"
+                    android:padding="5dp"
+                    android:text="comment"
+                    android:textColor="#F6F1F1"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#3949AB"
+                    app:cornerRadius="5dp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BottomNav"
+        android:layout_width="388dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/Homebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:text="Home"
+            android:textSize="10sp"
+            app:backgroundTint="#039BE5" />
+
+        <Button
+            android:id="@+id/AboutUsbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:padding="3dp"
+            android:text="About"
+            android:textSize="10sp"
+            app:backgroundTint="#039BE5" />
+
+        <Button
+            android:id="@+id/ContactUsbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="240dp"
+            android:text="Contact"
+            android:textSize="10sp"
+            app:backgroundTint="#039BE5" />
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
