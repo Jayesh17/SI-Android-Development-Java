@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">TicTacToe</string>
+    <string name="titleStr">Play And Enjoy !</string>
+    <string name="lbstr">LeaderBoard: </string>
+    <string name="ostr">O\'s Score: </string>
+    <string name="xstr">X\'s Score: </string>
+    <string name="status">Status:</string>
+</resources>
