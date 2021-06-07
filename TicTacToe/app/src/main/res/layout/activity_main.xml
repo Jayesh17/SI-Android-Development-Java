@@ -69,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Title" />
 
     <TextView
-        android:id="@+id/Xscore"
+        android:id="@+id/Oscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -80,7 +80,7 @@
         app:layout_constraintStart_toEndOf="@+id/Xstr" />
 
     <TextView
-        android:id="@+id/Oscore"
+        android:id="@+id/Xscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -118,6 +118,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="0" />
 
@@ -128,6 +129,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="1" />
 
@@ -138,6 +140,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="2" />
     </LinearLayout>
@@ -159,6 +162,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="3" />
 
@@ -169,6 +173,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="4" />
 
@@ -179,6 +184,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="5" />
     </LinearLayout>
@@ -200,6 +206,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="6" />
 
@@ -210,6 +217,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="7" />
 
@@ -220,6 +228,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:clickable="true"
             android:onClick="boxTap"
             android:tag="8" />
     </LinearLayout>
@@ -228,7 +237,7 @@
         android:id="@+id/StatusStr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="90dp"
+        android:layout_marginEnd="110dp"
         android:text="@string/status"
         android:textColor="#191818"
         android:textSize="18sp"
@@ -242,8 +251,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
-        android:text="X's Turn"
-        android:textColor="#E53935"
+        android:textColor="#F6F4F4"
         android:textSize="18sp"
         android:textStyle="bold|italic"
         app:layout_constraintStart_toEndOf="@+id/StatusStr"
@@ -253,6 +261,7 @@
         android:id="@+id/restartBtn"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:onClick="restart"
         android:text="Restart"
         app:backgroundTint="#5E35B1"
         app:layout_constraintBottom_toBottomOf="parent"
