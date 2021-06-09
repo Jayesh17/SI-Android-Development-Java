@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">CampusRecruitment</string>
+    <string name="app_name">RecruitEasy</string>
     <string name="HomeScreenCD">Home Screen</string>
-    <string name="Sysname">RecruitEasy,</string>
+    <string name="Sysname">RecruitEasy</string>
     <string name="Sysname2">Welcomes You!</string>
     <string name="cap">Be Selected !</string>
+    <string name="LoginBtnText">Login</string>
+    <string name="RegBtnText">Register</string>
+    <string name="signin">Sign-In</string>
+    <string-array name="planets_array">
+        <item>Student</item>
+        <item>Company</item>
+        <item>Admin</item>
+    </string-array>
+    <string name="forgotpass">Forgot Password?</string>
+    <string name="newUser">new User? Sign-up</string>
+    <string name="regstud">Student Registration</string>
 </resources>
