@@ -29,7 +29,7 @@
         app:srcCompat="@drawable/stud" />
 
     <TextView
-        android:id="@+id/signinstr3"
+        android:id="@+id/studRegTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signinstr3">
+        app:layout_constraintTop_toBottomOf="@id/studRegTitle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
