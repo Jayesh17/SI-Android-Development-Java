@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ListVIewPrac">
+        <activity android:name=".DeleteActivity"></activity>
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".AddActivity" />
+        <activity android:name=".OptionsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -24,7 +24,7 @@
         android:id="@+id/listContainer"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toTopOf="@+id/addItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +46,10 @@
         <ListView
             android:id="@+id/linkLists"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EDE9E9"
+            android:layout_height="0dp"
+            android:background="#F3EDEBEB"
             android:cacheColorHint="#FFFFFF"
-            android:dividerHeight="5dp"
+            android:dividerHeight="15dp"
             android:foregroundGravity="center_vertical|center_horizontal"
             android:textAlignment="gravity"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,45 +58,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addItem"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
+        android:background="#FFFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/linkTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:focusable="auto"
-            android:hint="Title"
-            android:inputType="textPersonName"
+        <Button
+            android:id="@+id/ManageBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="manageBtn"
+            android:text="Manage Links"
+            android:textStyle="bold"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/Link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:hint="Paste Link Here"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linkTitle" />
-
-        <Button
-            android:id="@+id/linkBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Add Link"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Link" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
