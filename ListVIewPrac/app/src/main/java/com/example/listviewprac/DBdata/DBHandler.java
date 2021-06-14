@@ -59,7 +59,8 @@ public class DBHandler extends SQLiteOpenHelper
         Boolean done = false;
         try
         {
-            int rows = db.delete(Params.LINKS_TBL,Params.TITLE+"=?",new String[]{"\""+title+"\""});
+            int rows = db.delete(Params.LINKS_TBL,Params.TITLE+"='"+title+"'",null);
+            //Log.d("logs",);
             if(rows > 0)
             {
                 Log.d("logs",rows+" with title "+title+"Deleted.");

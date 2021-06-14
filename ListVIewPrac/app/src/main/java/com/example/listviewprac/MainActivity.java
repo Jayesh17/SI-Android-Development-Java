@@ -2,6 +2,11 @@ package com.example.listviewprac;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.listviewprac.DBdata.DBHandler;
 import com.example.listviewprac.Model.LinkSet;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,13 +82,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            links.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d("logs","inside LongClick");
+                    try {
+                        String t =((TextView)view).getText().toString();
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("link", t);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getBaseContext(),t+" Copied to Clipboard",Toast.LENGTH_LONG).show();
+                        return true;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+            });
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        //to finish all the running activities and shut down the app.
+        ActivityCompat.finishAffinity(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

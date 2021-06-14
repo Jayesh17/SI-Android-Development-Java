@@ -17,7 +17,7 @@ public class OptionsActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent add_intent = new Intent(getApplicationContext(),AddActivity.class);
+                Intent add_intent = new Intent(getBaseContext(),AddActivity.class);
                 startActivity(add_intent);
             }
         });
@@ -26,7 +26,7 @@ public class OptionsActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent update_intent = new Intent(getApplicationContext(),UpdateActivity.class);
+                Intent update_intent = new Intent(getBaseContext(),UpdateActivity.class);
                 startActivity(update_intent);
             }
         });
@@ -35,7 +35,7 @@ public class OptionsActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent delete_intent = new Intent(getApplicationContext(),DeleteActivity.class);
+                Intent delete_intent = new Intent(getBaseContext(),DeleteActivity.class);
                 startActivity(delete_intent);
             }
         });

@@ -36,20 +36,22 @@ public class DeleteActivity extends AppCompatActivity {
 
                 if(title.isEmpty())
                 {
-                    Toast.makeText(getApplicationContext(), "Please Fill Title.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Please Fill Title.", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     int result = linksets.removeLink(myDBHandler,title);
                     if (result == 1)
-                        Toast.makeText(getApplicationContext(), title + " link has been Deleted.", Toast.LENGTH_LONG).show();
+                    {
+                        Toast.makeText(getBaseContext(), title + " link has been Deleted.", Toast.LENGTH_LONG).show();
+                        Intent mainAct = new Intent(getBaseContext(),MainActivity.class);
+                        startActivity(mainAct);
+                    }
                     else if (result == 0)
-                        Toast.makeText(getApplicationContext(), "Title does Not Exist.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Title does Not Exist.", Toast.LENGTH_LONG).show();
                     else
-                        Toast.makeText(getApplicationContext(), "Link could not be Deleted.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Link could not be Deleted.", Toast.LENGTH_LONG).show();
                 }
-                Intent mainAct = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(mainAct);
             }
         });
     }
