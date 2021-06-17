@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WatchNews</string>
+    <string name="title">Latest News - India</string>
+    <string name="cattitle">Categories</string>
+    <string-array name="categories">
+        <item>Top Headlines</item>
+        <item>Business</item>
+        <item>Sports</item>
+    </string-array>
+    <string name="pub">Published At:</string>
+    <string name="readMore">Click to read Full Article</string>
+</resources>

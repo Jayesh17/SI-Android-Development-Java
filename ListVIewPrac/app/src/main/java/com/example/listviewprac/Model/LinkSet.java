@@ -10,7 +10,6 @@ public class LinkSet {
 
     private HashMap<String,String> LinkMaps = new HashMap<>();
     private ArrayList<String> linkStr = new ArrayList<>();
-
     public int getCount()
     {
         return linkStr.size();

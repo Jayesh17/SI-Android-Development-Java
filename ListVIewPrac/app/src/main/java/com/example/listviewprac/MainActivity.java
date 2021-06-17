@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.listviewprac.DBdata.DBHandler;
 import com.example.listviewprac.Model.LinkSet;
-
 public class MainActivity extends AppCompatActivity {
 
     private static DBHandler myDBHandler;
