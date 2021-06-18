@@ -60,7 +60,6 @@ public class MediaController {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<String> getNames()
     {
-        Log.d("ENter","in get name"+ MainActivity.isLoaded+audioFiles.size());
         List<String> songNames = new ArrayList<>();
 
         Iterator<MP3File> it = audioFiles.iterator();
@@ -68,8 +67,23 @@ public class MediaController {
         {
             MP3File file = it.next();
             songNames.add(file.getName());
-            Log.d("success",file.getName());
         }
         return songNames;
+    }
+
+    public final String getPathByName(String name)
+    {
+        String path="";
+       Iterator<MP3File> it = audioFiles.iterator();
+       while(it.hasNext())
+       {
+           MP3File file = it.next();
+           if(name.equals(file.getName()))
+           {
+               path = file.getPath();
+               break;
+           }
+       }
+       return path;
     }
 }

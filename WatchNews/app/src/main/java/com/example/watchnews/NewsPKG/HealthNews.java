@@ -1,5 +1,6 @@
 package com.example.watchnews.NewsPKG;
 
+import android.net.wifi.WpsInfo;
 import android.os.Build;
 import android.util.Log;
 
@@ -20,71 +21,45 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class HealthNews {
 
     private HashMap<Integer,News> healthNews;
-    RequestFuture<JSONObject> future;
+    private int count;
 
     public HealthNews() {
-        future = RequestFuture.newFuture();
         healthNews = new HashMap<>();
+        count=0;
 
     }
-
-    public void addHealthNews(Integer id, String title, String pub, String URL)
+    public void addHealthNews(Vector<News> newsList)
     {
-        News newNews = new News(title,pub,URL);
-        healthNews.put(id,newNews);
+        int id=0;
+        Iterator<News> it = newsList.iterator();
+        while (it.hasNext())
+        {
+            News n = it.next();
+            id++;
+            count++;
+            healthNews.put(id,n);
+        }
     }
 
     public HashMap<Integer, News> getHealthNews() {
         return healthNews;
     }
 
-    public void getDataFromAPI(String URL)
-    {
-        JsonObjectRequest newRequest = new JsonObjectRequest(URL,new JSONObject(),future,future);
-        MainController.APIRequests.add(newRequest);
-    }
-    public void setData()
-    {
-        int count=0;
-        try
-        {
-            JSONObject obj = future.get();
-            JSONArray articles = obj.getJSONArray("articles");
-            for (int i = 0; i < articles.length() ; i++) {
-
-                JSONObject article = articles.getJSONObject(i);
-                String title = article.getString("title");
-                String URL = article.getString("url");
-                String pub = article.getString("publishedAt");
-
-                count++;
-                addHealthNews(count,title,pub,URL);
-            }
-        }
-        catch (InterruptedException | ExecutionException err)
-        {
-            Log.d("Error","something Went Wrong "+err);
-        }
-        catch (Exception e)
-        {
-            Log.d("Error","something Went Wrong "+e);
-        }
-    }
-
     public void showTitle()
     {
         Iterator<Map.Entry<Integer, News>> it = healthNews.entrySet().iterator();
-       /* while(it.hasNext())
-        {*/
+       while(it.hasNext())
+        {
             Map.Entry<Integer,News> en = it.next();
             News n = en.getValue();
             Log.d("Success",+en.getKey()+" "+n.getTitle());
-        //}
+        }
     }
 }

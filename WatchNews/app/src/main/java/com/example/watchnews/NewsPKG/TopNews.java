@@ -4,14 +4,29 @@ import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class TopNews {
-    private HashMap<Integer,News> topNews = new HashMap<>();
+    private HashMap<Integer,News> topNews;
+    private int count;
 
-    public void addTopHeadlines(Integer id,String title,String pub,String URL)
+    public TopNews()
     {
-        News newNews = new News(title,pub,URL);
-        topNews.put(id,newNews);
+        topNews = new HashMap<>();
+        count=0;
+    }
+    public void addTopNews(Vector<News> newsList)
+    {
+        int id=0;
+        Iterator<News> it = newsList.iterator();
+        while (it.hasNext())
+        {
+            News n = it.next();
+            id++;
+            count++;
+            topNews.put(id,n);
+        }
     }
 
     public HashMap<Integer, News> getTopNews() {
