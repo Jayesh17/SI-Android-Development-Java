@@ -3,8 +3,11 @@ package com.example.watchnews.NewsPKG;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class TopNews {
@@ -29,8 +32,32 @@ public class TopNews {
         }
     }
 
-    public HashMap<Integer, News> getTopNews() {
-        return topNews;
+    public Vector<String> getURLs()
+    {
+        Vector<String> URLs = new Vector<>();
+        Iterator<Map.Entry<Integer, News>> it = topNews.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<Integer,News> en = it.next();
+            News n = en.getValue();
+            URLs.add(n.getURL());
+        }
+        return URLs;
     }
 
+    public List<HashMap<String,String>> getRequiredInfo()
+    {
+        List<HashMap<String,String>> NewsListData = new ArrayList<>();
+        Iterator<Map.Entry<Integer, News>> it = topNews.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<Integer,News> en = it.next();
+            News n = en.getValue();
+            HashMap<String, String> newEntry = new HashMap<>();
+            newEntry.put("Title",n.getTitle());
+            newEntry.put("PublishTime",n.getPublishTime());
+            NewsListData.add(newEntry);
+        }
+        return NewsListData;
+    }
 }

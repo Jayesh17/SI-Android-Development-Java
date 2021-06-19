@@ -20,12 +20,13 @@ import java.util.Vector;
 
 public class APIController {
 
-    HttpURLConnection urlConnection;
     public String getDataFromAPI(String linkURL)
     {
         String result="";
         try
         {
+            Log.d("insideapi",linkURL);
+            HttpURLConnection urlConnection;
             URL url = new URL(linkURL);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB;     rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13 (.NET CLR 3.5.30729)");
@@ -53,8 +54,10 @@ public class APIController {
                 Log.d("er","error code "+code);
             }
         } catch (MalformedURLException e) {
+
             Log.d("apiurler",e.toString());
         } catch (IOException e) {
+
             Log.d("apiurler",e.toString());
         }
         return result;
@@ -72,10 +75,12 @@ public class APIController {
                 String URL = article.getString("url");
                 String pub = article.getString("publishedAt");
 
+                MainController.titlesWithURLs.put(title,URL);
                 News news = new News(title,URL,pub);
                 newsList.add(news);
             }
         } catch (JSONException e) {
+
             Log.d("jsonerr",e.toString());
         }
         return newsList;

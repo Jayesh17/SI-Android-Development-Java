@@ -16,6 +16,10 @@ import com.example.watchnews.NewsPKG.SportsNews;
 import com.example.watchnews.NewsPKG.TechNews;
 import com.example.watchnews.NewsPKG.TopNews;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 
@@ -30,8 +34,12 @@ public class MainController {
     public static SportsNews sportsNews;
     public static APIController apiController;
 
+    public static boolean isdone;
+    public static HashMap<String,String> titlesWithURLs;
+
     public MainController()
     {
+        isdone = false;
         healthNews = new HealthNews();
         topNews = new TopNews();
         enternNews = new EnternNews();
@@ -40,12 +48,12 @@ public class MainController {
         techNews = new TechNews();
         sportsNews = new SportsNews();
         apiController = new APIController();
+        titlesWithURLs = new HashMap<>();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void populateData()
     {
-        CompletableFuture<String> newsFuture[] = new CompletableFuture[7];
         String URLs[] =
                 {
                         "https://newsapi.org/v2/top-headlines?country=in&apiKey=6d02c290b6a94d2b9b8e2cc1571070f2",
@@ -57,67 +65,52 @@ public class MainController {
                         "https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=6d02c290b6a94d2b9b8e2cc1571070f2"
                 };
 
+       CompletableFuture<Vector<News>> futures[] = new CompletableFuture[7];
         for (int i = 0; i < URLs.length; i++) {
             int finalI = i;
-            newsFuture[i] = CompletableFuture.supplyAsync(()->{
-                return apiController.getDataFromAPI(URLs[finalI]);
-            });
+             futures[i] = CompletableFuture.supplyAsync(()->apiController.getDataFromAPI(URLs[finalI])).thenApply(newsData -> apiController.prepareData(newsData));
         }
 
-        String resData[] = new String[7];
-
+        Vector<News> newsLists[] = new Vector[7];
         for (int i = 0; i < URLs.length; i++) {
             try
             {
-                resData[i] = new String();
-                resData[i] = newsFuture[i].get();
-                //newsLists[i] = apiController.prepareData(newsFuture[i].get());
+                newsLists[i] = futures[i].get();
             }
             catch (Exception e)
             {
-                Log.d("geturler",e.toString());
+                Log.d("geturlerr",e.toString());
             }
         }
-
-        //top,business,entern,health,sci,sport,tech
-
-        Vector<News> topNewsList = apiController.prepareData(resData[0]);
-        Vector<News> businessNewsList = apiController.prepareData(resData[1]);
-        Vector<News> enternNewsList = apiController.prepareData(resData[2]);
-        Vector<News> healthNewsList = apiController.prepareData(resData[3]);
-        Vector<News> sciNewsList = apiController.prepareData(resData[4]);
-        Vector<News> sportNewsList = apiController.prepareData(resData[5]);
-        Vector<News> techNewsList = apiController.prepareData(resData[6]);
-
 
         CompletableFuture<Void> prepareFuture[] = new CompletableFuture[7];
 
         prepareFuture[0]= CompletableFuture.runAsync(()->{
-           topNews.addTopNews(topNewsList);
+           topNews.addTopNews(newsLists[0]);
         });
 
         prepareFuture[1]= CompletableFuture.runAsync(()->{
-            businessNews.addBusinessNews(businessNewsList);
+            businessNews.addBusinessNews(newsLists[1]);
         });
 
         prepareFuture[2]= CompletableFuture.runAsync(()->{
-            enternNews.addEnternNews(enternNewsList);
+            enternNews.addEnternNews(newsLists[2]);
         });
 
         prepareFuture[3]= CompletableFuture.runAsync(()->{
-            healthNews.addHealthNews(healthNewsList);
+            healthNews.addHealthNews(newsLists[3]);
         });
 
         prepareFuture[4]= CompletableFuture.runAsync(()->{
-            scienceNews.addScienceNews(sciNewsList);
+            scienceNews.addScienceNews(newsLists[4]);
         });
 
         prepareFuture[5]= CompletableFuture.runAsync(()->{
-            sportsNews.addSportsNews(sportNewsList);
+            sportsNews.addSportsNews(newsLists[5]);
         });
 
         prepareFuture[6]= CompletableFuture.runAsync(()->{
-            techNews.addTechNews(techNewsList);
+            techNews.addTechNews(newsLists[6]);
         });
 
 
@@ -126,13 +119,44 @@ public class MainController {
             try
             {
                 prepareFuture[i].get();
+                isdone = true;
             }
             catch (Exception e)
             {
-                Log.d("purler",e.toString());
+
+                Log.d("prepareerr",e.toString());
             }
         }
-
         healthNews.showTitle();
     }
+
+    public static List<HashMap<String,String>> getListForTopNews()
+    {
+        return topNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForBusinessNews() {
+        return businessNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForHealthNews() {
+        return healthNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForEnternNews() {
+        return enternNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForScienceNews() {
+        return scienceNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForSportsNews() {
+        return sportsNews.getRequiredInfo();
+    }
+
+    public static List<HashMap<String, String>> getListForTechNews() {
+        return techNews.getRequiredInfo();
+    }
+
 }

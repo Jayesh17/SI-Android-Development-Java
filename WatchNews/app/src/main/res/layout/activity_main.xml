@@ -42,7 +42,9 @@
         android:layout_marginEnd="20dp"
         android:background="#92F3F0F0"
         android:entries="@array/categories"
-        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/catTitle" />
@@ -56,9 +58,20 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:divider="@android:color/holo_blue_dark"
-        android:dividerHeight="10dp"
+        android:dividerHeight="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cats" />
+
+    <TextView
+        android:id="@+id/Status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Wait..."
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/News"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/News" />
 </androidx.constraintlayout.widget.ConstraintLayout>

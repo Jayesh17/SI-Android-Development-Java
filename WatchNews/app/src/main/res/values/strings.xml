@@ -5,7 +5,11 @@
     <string-array name="categories">
         <item>Top Headlines</item>
         <item>Business</item>
+        <item>Health</item>
+        <item>Entertainment</item>
+        <item>Science</item>
         <item>Sports</item>
+        <item>Technology</item>
     </string-array>
     <string name="pub">Published At:</string>
     <string name="readMore">Click to read Full Article</string>
