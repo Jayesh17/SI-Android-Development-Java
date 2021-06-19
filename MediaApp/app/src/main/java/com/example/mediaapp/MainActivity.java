@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     Handler customHandler;
     ListView songList;
     public static String songKey;
+    public static String songid;
+
+    public static HashMap<String,Integer> Songs;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -88,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     public void setIntialState() {
         context = getApplicationContext();
         isLoaded = false;
+        Songs = new HashMap<>();
         songList = findViewById(R.id.list);
         mediaController = new MediaController();
         mediaPlayer = new MediaPlayer();
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         status = findViewById(R.id.status);
         status.setVisibility(View.VISIBLE);
         songKey = getPackageName()+"songKey";
+        songid = getPackageName()+"songID";
         customHandler = new Handler();
         customHandler.postDelayed(checkIfDone, 0);
 
@@ -122,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
                     String songName = ((TextView)view).getText().toString();
                     Intent playSong = new Intent(getBaseContext(),PlaySongActivity.class);
                     playSong.putExtra(songKey,songName);
+                    int songID = Songs.get(songName);
+                    playSong.putExtra(songid,songID);
                        startActivity(playSong);
                 }
             });

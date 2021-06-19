@@ -33,6 +33,7 @@ public class MediaController {
 
             if( c != null)
             {
+                int count=0;
                 while(c.moveToNext())
                 {
                     String path = c.getString(0);
@@ -42,6 +43,7 @@ public class MediaController {
                     if(ext != "ogg")
                     {
                         Log.d("EXT",ext);
+                        MainActivity.Songs.put(name,++count);
                         MP3File file = new MP3File(name,path);
                         audioFiles.add(file);
                     }
