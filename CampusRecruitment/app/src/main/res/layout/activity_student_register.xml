@@ -141,6 +141,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/studCPass" />
+
+            <ImageButton
+                android:id="@+id/showPassBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FBF8F8"
+                android:onClick="showPass"
+                android:tag="0"
+                app:layout_constraintBottom_toTopOf="@+id/studCPass"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/studPass"
+                app:layout_constraintTop_toBottomOf="@+id/studName"
+                app:srcCompat="@drawable/show" />
+
+            <ImageButton
+                android:id="@+id/showCPassBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FBFBFB"
+                android:onClick="showCPass"
+                android:tag="0"
+                app:layout_constraintBottom_toTopOf="@+id/studRegisterBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/studCPass"
+                app:layout_constraintTop_toBottomOf="@+id/studPass"
+                app:srcCompat="@drawable/show" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

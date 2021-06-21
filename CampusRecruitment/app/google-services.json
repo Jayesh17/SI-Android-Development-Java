@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "646993942532",
+    "project_id": "reqruiteasy",
+    "storage_bucket": "reqruiteasy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646993942532:android:ebb010dd0b18be83087d51",
+        "android_client_info": {
+          "package_name": "com.example.campusrecruitment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646993942532-0bg9er98q7tbp7l40rf4vgiat5d0g9j7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.campusrecruitment",
+            "certificate_hash": "cc7e9a7e72a19a62f8bbe922b8e73d372038e224"
+          }
+        },
+        {
+          "client_id": "646993942532-lhos3apg9vnok1u61lrdom0c6gu3futq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWwicnpL3kAi0QuKSTPSD4SYU-e_DvEac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646993942532-lhos3apg9vnok1u61lrdom0c6gu3futq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
