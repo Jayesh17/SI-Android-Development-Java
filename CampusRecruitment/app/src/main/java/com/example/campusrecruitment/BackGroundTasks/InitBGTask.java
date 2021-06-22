@@ -1,5 +1,4 @@
 package com.example.campusrecruitment.BackGroundTasks;
-
 import android.os.AsyncTask;
 import com.example.campusrecruitment.DBManipulation.DBHandler;
 import com.example.campusrecruitment.MainActivity;

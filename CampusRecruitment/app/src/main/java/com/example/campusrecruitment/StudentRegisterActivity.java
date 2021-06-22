@@ -2,7 +2,9 @@ package com.example.campusrecruitment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +30,12 @@ public class StudentRegisterActivity extends AppCompatActivity {
     private EditText studPassView;
     private EditText studCPassView;
     private Button submitView;
+    public static Context context;
+    public static FragmentManager fragmentManager;
+    String email;
+    String name ;
+    String pass;
+    String cpass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,22 +43,40 @@ public class StudentRegisterActivity extends AppCompatActivity {
         setInitialState();
 
         submitView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 Boolean isValidated = validateForm();
+                boolean isSend = false;
                 if(isValidated)
-                    Toast.makeText(getBaseContext(),"checked!",Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getBaseContext(),"Failed!",Toast.LENGTH_LONG).show();
+                {
+                    isSend = OTPAuthetication();
+                    if(isSend)
+                    {
+                        Toast.makeText(getBaseContext(),"checked!",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        //Toast.makeText(getBaseContext(),"Failed!",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private boolean OTPAuthetication()
+    {
+        Random r = new Random();
+        int OTP = 1000 + r.nextInt(8999);
+        return MainActivity.mailBGTasks.OTPAuthentication(email,OTP);
+    }
     private Boolean validateForm()
     {
-        String email = studEmailView.getText().toString();
-        String name = studNameView.getText().toString();
-        String pass = studPassView.getText().toString();
-        String cpass = studCPassView.getText().toString();
+        email = studEmailView.getText().toString();
+        name = studNameView.getText().toString();
+        pass = studPassView.getText().toString();
+        cpass = studCPassView.getText().toString();
 
         if(email.isEmpty())
         {
@@ -131,30 +158,32 @@ public class StudentRegisterActivity extends AppCompatActivity {
         studPassView = (EditText)findViewById(R.id.studPass);
         studCPassView = (EditText) findViewById(R.id.studCPass);
         submitView = (Button)findViewById(R.id.studRegisterBtn);
+        context = getBaseContext();
+        fragmentManager = getSupportFragmentManager();
     }
 
     public void showPass(View view)
     {
-        String tag = view.getTag().toString();
+        int tag = Integer.parseInt(view.getTag().toString());
         ImageButton imgbtn= (ImageButton)findViewById(R.id.showPassBtn);
-        if(tag.equals("0"))
+        if(tag==0)
         {
             studPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.hide);
-            view.setTag("1");
+            imgbtn.setTag("1");
         }
         else
         {
             studPassView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.show);
-            view.setTag("0");
+            imgbtn.setTag("0");
         }
     }
     public void showCPass(View view)
     {
-        String tag = view.getTag().toString();
+        int tag = Integer.parseInt(view.getTag().toString());
         ImageButton imgbtn= (ImageButton)findViewById(R.id.showCPassBtn);
-        if(tag.equals("0"))
+        if(tag==0)
         {
             studCPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.hide);

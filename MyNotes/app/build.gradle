@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    //id 'com.google.gms.google-services'
 }
 
 android {
@@ -8,8 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        android.defaultConfig.vectorDrawables.useSupportLibrary = true
-        applicationId "com.example.campusrecruitment"
+        applicationId "com.example.mynotes"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
@@ -38,10 +36,4 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    /*implementation platform('com.google.firebase:firebase-bom:28.1.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation "com.google.firebase:firebase-database:20.0.0"
-    implementation "com.google.firebase:firebase-auth:21.0.1"*/
-    implementation "com.sun.mail:android-mail:1.6.0"
-    implementation "com.sun.mail:android-activation:1.6.0"
 }
