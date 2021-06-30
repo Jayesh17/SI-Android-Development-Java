@@ -2,12 +2,17 @@ package com.example.mynotes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewNoteActivity extends AppCompatActivity {
 
@@ -48,6 +53,25 @@ public class ViewNoteActivity extends AppCompatActivity {
                 intent.putExtra(noteTitleKey,itemTitle);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        itemContentView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int selectionStart = itemContentView.getSelectionStart();
+                int selectionEnd = itemContentView.getSelectionEnd();
+                ClipboardManager cm = (ClipboardManager)getBaseContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                String selectedText = itemContentView.getText().toString().substring(selectionStart,selectionEnd);
+                Log.d("clip",selectedText);
+                ClipData clip = ClipData.newPlainText("clip", selectedText);
+                cm.setPrimaryClip(clip);
+                if(selectedText.isEmpty())
+                {
+                    return false;
+                }
+                Toast.makeText(getBaseContext(), selectedText+"Copied to clipboard", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
     }

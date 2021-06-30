@@ -14,11 +14,9 @@ public class SharedPrefHandler {
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     Notes notes;
-    //HashMap<String,String> savedNotes;
 
     SharedPrefHandler(SharedPreferences sp)
     {
-        //savedNotes = MainActivity.savedNotes;
         this.sp = sp;
         editor = sp.edit();
         /*editor.clear();
@@ -45,11 +43,11 @@ public class SharedPrefHandler {
         }
         return 1;
     }
-    public void deleteNote(String title)
+    public void deleteNote(int pos,String title)
     {
         editor.remove(title);
         editor.apply();
-        if(notes.removeItem(title))
+        if(notes.removeItem(pos,title))
         {
             Log.d("delete","Success");
         }
@@ -58,14 +56,19 @@ public class SharedPrefHandler {
             Toast.makeText(MainActivity.context,"couldn't delete.",Toast.LENGTH_LONG).show();
         }
     }
+    public void deleteNoteByTitle(String title)
+    {
+        editor.remove(title);
+        editor.apply();
+        notes.deleteNoteByTitle(title);
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void editNote(String prevTitle, String title, String content)
     {
         String isStored = sp.getString(title,"NA");
         if(isStored.equals("NA"))
         {
-            String prevContent = sp.getString(prevTitle,"NA");
-            deleteNote(prevTitle);
+            deleteNoteByTitle(prevTitle);
             addNewNote(title,content);
         }
         else {

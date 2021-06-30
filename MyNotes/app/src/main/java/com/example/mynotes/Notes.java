@@ -1,6 +1,7 @@
 package com.example.mynotes;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -29,6 +30,7 @@ public class Notes {
         else
         {
             savedNotes.put(title,content);
+            Log.d("add",title+" "+content);
             addToList(title);
         }
         return true;
@@ -45,7 +47,7 @@ public class Notes {
     }
     public int getCount()
     {
-        return savedNotes.size();
+        return titleArrayList.size();
     }
     public void addToList(String title)
     {
@@ -63,23 +65,36 @@ public class Notes {
         return savedNotes.get(title);
     }
 
-    public boolean removeItem(String title)
+    public boolean removeItem(int pos,String title)
     {
         if(savedNotes.containsKey(title))
         {
             savedNotes.remove(title);
-            Iterator<HashMap<String,String>> it = titleArrayList.iterator();
-            while(it.hasNext())
+            titleArrayList.remove(pos);
+            MainActivity.adapter.notifyDataSetChanged();
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+    public void deleteNoteByTitle(String title)
+    {
+        int ind = -1,count;
+        savedNotes.remove(title);
+        Iterator<HashMap<String,String>> it = titleArrayList.iterator();
+        while (it.hasNext())
+        {
+            ind++;
+            HashMap<String,String> en = it.next();
+            if(en.containsValue(title))
             {
-                HashMap<String,String> item = it.next();
-                if(item.containsValue(title))
-                {
-                    it.remove();
-                    return true;
-                }
+                break;
             }
         }
-        return false;
+        titleArrayList.remove(ind);
+        MainActivity.adapter.notifyDataSetChanged();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

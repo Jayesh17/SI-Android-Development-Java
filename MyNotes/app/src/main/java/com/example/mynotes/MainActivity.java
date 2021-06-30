@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     ListView notesList;
     Button addNoteBtn;
-    TextView status;
+    public static TextView status;
     public static final String titleKey = "com.example.mynotes.MainActivity.TITLE_KEY";
 
     SharedPreferences sp;
     public static SharedPrefHandler SPHandler;
     public static Notes notes;
     public static Context context;
-
+    public static ListAdapter adapter;
     String from[] = {"title"};
     int to[] = {R.id.nTitle};
 
@@ -55,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
             status.setVisibility(View.VISIBLE);
         }
         else {
-            status.setVisibility(View.GONE);
-            ListAdapter adapter = new ListAdapter(this,notes.getTitleArrayList(),R.layout.activity_view_item,from,to);
+            status.setVisibility(View.INVISIBLE);
+            adapter = new ListAdapter(this,notes.getTitleArrayList(),R.layout.activity_view_item,from,to);
             notesList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -88,13 +89,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        sp.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                recreate();
-                //to give no effect when recreating activity.
-                overridePendingTransition(0, 0);
-            }
-        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showLists();
+        Log.d("resume","resume");
     }
 }

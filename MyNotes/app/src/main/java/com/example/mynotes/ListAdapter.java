@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ListAdapter extends SimpleAdapter {
 
@@ -53,7 +54,6 @@ public class ListAdapter extends SimpleAdapter {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(context, v, Gravity.END);
                 MenuInflater inflater = popup.getMenuInflater();
-
                 String itemtitle = noteLists.get(position).get("title");
                 inflater.inflate(R.menu.layout_menu_items, popup.getMenu());
                 popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position,itemtitle));

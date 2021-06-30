@@ -3,11 +3,14 @@ package com.example.campusrecruitment;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -18,6 +21,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.campusrecruitment.BasicOperations.FirstTimeAuthentication;
+import com.example.campusrecruitment.Dialogs.OTPDialog;
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -36,6 +42,8 @@ public class StudentRegisterActivity extends AppCompatActivity {
     String name ;
     String pass;
     String cpass;
+    Handler checkHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,29 +55,56 @@ public class StudentRegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Boolean isValidated = validateForm();
-                boolean isSend = false;
                 if(isValidated)
                 {
-                    isSend = OTPAuthetication();
-                    if(isSend)
-                    {
-                        Toast.makeText(getBaseContext(),"checked!",Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        //Toast.makeText(getBaseContext(),"Failed!",Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(StudentRegisterActivity.context,"Please wait...",Toast.LENGTH_LONG).show();
+                    OTPAuthentication();
+                    checkHandler.postDelayed(isVerified,1000);
                 }
             }
         });
     }
 
+    Runnable isVerified = new Runnable() {
+        @Override
+        public void run() {
+            if(OTPDialog.isVerified==1)
+            {
+                Log.d("callbacks","Verified");
+                Toast.makeText(StudentRegisterActivity.context,"Student Verified",Toast.LENGTH_LONG).show();
+                 checkHandler.removeCallbacks(this);
+            }
+            else if(OTPDialog.isVerified==0){
+                Log.d("callbacks","Canceled");
+                Toast.makeText(StudentRegisterActivity.context,"Operation Canceled.",Toast.LENGTH_LONG).show();
+                checkHandler.removeCallbacks(this);
+            }
+            else {
+                Log.d("callbacks","in Waiting");
+                checkHandler.postDelayed(this,1000);
+            }
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        checkHandler.removeCallbacks(isVerified);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private boolean OTPAuthetication()
+    private void OTPAuthentication()
     {
         Random r = new Random();
         int OTP = 1000 + r.nextInt(8999);
-        return MainActivity.mailBGTasks.OTPAuthentication(email,OTP);
+        FirstTimeAuthentication auth = new FirstTimeAuthentication();
+        auth.OTPAuthentication(email,OTP,"Student");
     }
     private Boolean validateForm()
     {
@@ -95,7 +130,6 @@ public class StudentRegisterActivity extends AppCompatActivity {
             studEmailView.setError("You can only register by your DAIICT Domain Student-ID.");
             return false;
         }
-
 
         if(name.isEmpty())
         {
@@ -160,40 +194,41 @@ public class StudentRegisterActivity extends AppCompatActivity {
         submitView = (Button)findViewById(R.id.studRegisterBtn);
         context = getBaseContext();
         fragmentManager = getSupportFragmentManager();
+        checkHandler = new Handler();
     }
 
     public void showPass(View view)
     {
-        int tag = Integer.parseInt(view.getTag().toString());
         ImageButton imgbtn= (ImageButton)findViewById(R.id.showPassBtn);
+        int tag = Integer.parseInt(imgbtn.getTag().toString());
         if(tag==0)
         {
-            studPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            studPassView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.hide);
             imgbtn.setTag("1");
         }
         else
         {
-            studPassView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            studPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.show);
             imgbtn.setTag("0");
         }
     }
     public void showCPass(View view)
     {
-        int tag = Integer.parseInt(view.getTag().toString());
         ImageButton imgbtn= (ImageButton)findViewById(R.id.showCPassBtn);
+        int tag = Integer.parseInt(imgbtn.getTag().toString());
         if(tag==0)
         {
-            studCPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            studCPassView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.hide);
-            view.setTag("1");
+            imgbtn.setTag("1");
         }
         else
         {
-            studCPassView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            studCPassView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             imgbtn.setImageResource(R.drawable.show);
-            view.setTag("0");
+            imgbtn.setTag("0");
         }
     }
 }

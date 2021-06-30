@@ -1,6 +1,7 @@
 package com.example.mynotes;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.PopupMenu;
 
 public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
@@ -17,7 +18,11 @@ public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListene
     }
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        sp.deleteNote(itemTitle);
+        sp.deleteNote(pos,itemTitle);
+        if(MainActivity.notes.getCount()==0)
+        {
+            MainActivity.status.setVisibility(View.VISIBLE);
+        }
         return true;
     }
 }

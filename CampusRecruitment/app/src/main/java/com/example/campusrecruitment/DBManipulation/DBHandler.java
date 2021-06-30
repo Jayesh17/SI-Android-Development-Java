@@ -20,6 +20,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(StudentRegistrationParams.CREATE_QUERY);
     }
 
+    //public void storeStudentRegistration();
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
