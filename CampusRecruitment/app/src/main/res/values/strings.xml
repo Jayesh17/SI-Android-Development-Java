@@ -7,7 +7,7 @@
     <string name="LoginBtnText">Login</string>
     <string name="RegBtnText">Register</string>
     <string name="signin">Sign-In</string>
-    <string-array name="planets_array">
+    <string-array name="roleNames">
         <item>Student</item>
         <item>Company</item>
         <item>Admin</item>

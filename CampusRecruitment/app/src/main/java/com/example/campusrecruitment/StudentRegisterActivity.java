@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class StudentRegisterActivity extends AppCompatActivity {
     String cpass;
     Handler checkHandler;
 
+    MainController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +61,25 @@ public class StudentRegisterActivity extends AppCompatActivity {
                 if(isValidated)
                 {
                     Toast.makeText(StudentRegisterActivity.context,"Please wait...",Toast.LENGTH_LONG).show();
-                    OTPAuthentication();
-                    checkHandler.postDelayed(isVerified,1000);
+                    if(controller.checkIfStudentExists(email))
+                    {
+                        Toast.makeText(StudentRegisterActivity.context,"Student with Mail ID "+email+" Already Registered.",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        OTPAuthentication();
+                        checkHandler.postDelayed(isVerified,1000);
+                    }
                 }
             }
         });
     }
 
+    private void openLogin()
+    {
+        Intent loginPage = new Intent(getBaseContext(),LoginActivity.class);
+        startActivity(loginPage);
+        finish();
+    }
     Runnable isVerified = new Runnable() {
         @Override
         public void run() {
@@ -73,6 +88,8 @@ public class StudentRegisterActivity extends AppCompatActivity {
                 Log.d("callbacks","Verified");
                 Toast.makeText(StudentRegisterActivity.context,"Student Verified",Toast.LENGTH_LONG).show();
                  checkHandler.removeCallbacks(this);
+                 controller.registerStudent(email,name,pass);
+                 openLogin();
             }
             else if(OTPDialog.isVerified==0){
                 Log.d("callbacks","Canceled");
@@ -151,7 +168,7 @@ public class StudentRegisterActivity extends AppCompatActivity {
         }
         if(pass.length() > 16 || pass.length() < 8)
         {
-            studPassView.setError("Password must be of 8 to 20 characters.");
+            studPassView.setError("Password must be of 8 to 16 characters.");
             return false;
         }
         String lowerCaseChars = "(.*[a-zA-Z].*)";
@@ -195,6 +212,7 @@ public class StudentRegisterActivity extends AppCompatActivity {
         context = getBaseContext();
         fragmentManager = getSupportFragmentManager();
         checkHandler = new Handler();
+        controller = MainActivity.controller;
     }
 
     public void showPass(View view)

@@ -13,4 +13,11 @@ public class StudentRegistrationParams {
             SNAME+" VARCHAR(50) NOT NULL,"+
             PASSWORD+" VARCHAR(16) NOT NULL);";
 
+    public static enum status{
+        NOT_EXIST,
+        WRONG_PASS,
+        ERROR,
+        DONE
+    }
+
 }

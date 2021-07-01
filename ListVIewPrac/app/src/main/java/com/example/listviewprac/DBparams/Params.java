@@ -8,4 +8,10 @@ public class Params {
     public static final String KEY_ID = "ID";
     public static final String TITLE = "Title";
     public static final String LINK = "Reference";
+
+    public static enum status  {
+            WRONG_PASSWORD,
+            NOT_EXISTS,
+            ERROR
+    }
 }

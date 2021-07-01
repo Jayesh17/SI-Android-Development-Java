@@ -19,6 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
     {
         Intent regStud = new Intent(this, StudentRegisterActivity.class);
         startActivity(regStud);
+        finish();
     }
     public void setIntiateState()
     {
