@@ -27,13 +27,21 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox remView;
     Button loginBtnView;
 
-    String[] roles = new String[3];
+    String[] roles = new String[2];
     String role;
     String email;
     String pass;
 
     MainController controller;
     public static Context context;
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
         loginBtnView = findViewById(R.id.loginUserBtn);
         controller = MainActivity.controller;
         context = getBaseContext();
-
         roles = getResources().getStringArray(R.array.roleNames);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED); //RatateLock
     }
@@ -166,11 +173,13 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent reg = new Intent(this, RegisterActivity.class);
         startActivity(reg);
+        finish();
     }
     public void forgotPassAct(View view)
     {
         Intent fp = new Intent(this, ForgotPasswordActivity.class);
         startActivity(fp);
+        finish();
     }
     public void showPass(View view)
     {

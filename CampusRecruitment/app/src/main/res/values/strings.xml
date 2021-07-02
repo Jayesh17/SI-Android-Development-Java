@@ -10,7 +10,6 @@
     <string-array name="roleNames">
         <item>Student</item>
         <item>Company</item>
-        <item>Admin</item>
     </string-array>
     <string name="forgotpass">Forgot Password?</string>
     <string name="newUser">new User? Sign-up</string>

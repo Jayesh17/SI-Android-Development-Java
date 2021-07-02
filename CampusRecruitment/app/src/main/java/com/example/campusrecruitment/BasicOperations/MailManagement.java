@@ -33,6 +33,9 @@ public class MailManagement {
     final String OTP_AUTH_SUBJECT="Welcome to RecruitEasy!";
     final String OTP_AUTH_MSG="Your One-Time Password for Registration is:";
 
+    final String CP_REQUEST_SUBJECT="Change Password Confirmation";
+    final String CP_REQUEST_MSG="Your One-Time Password to change your password is:";
+
     final String REGARD= "Thanks And Regards";
     final String COM_NAME="RecruitEasy!";
 
@@ -53,6 +56,7 @@ public class MailManagement {
                 return new PasswordAuthentication(userName,password);
             }
         });
+
     }
     public boolean registerUserAuthentication(String recipient,Integer OTP)
     {
@@ -66,6 +70,26 @@ public class MailManagement {
             Transport.send(msg);
         }
         catch (MessagingException e)
+        {
+            Log.d("mailERR:",e.toString());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sendOTPForChangePassword(final String recipient,final int OTP) {
+
+        try
+        {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(userName));
+            msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipient));
+            msg.setSubject(CP_REQUEST_SUBJECT);
+            msg.setText(CP_REQUEST_MSG+" "+OTP+"\r\n"+REGARD+"\r\n"+COM_NAME);
+            Transport.send(msg);
+            Log.d("inCall","in Call mail");
+        }
+        catch (Exception e)
         {
             Log.d("mailERR:",e.toString());
             return false;

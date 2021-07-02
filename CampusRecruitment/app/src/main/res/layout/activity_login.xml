@@ -47,7 +47,7 @@
         android:layout_height="375dp"
         android:layout_marginTop="5dp"
         android:background="#2CEFEBEB"
-        android:isScrollContainer="true"
+        android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
