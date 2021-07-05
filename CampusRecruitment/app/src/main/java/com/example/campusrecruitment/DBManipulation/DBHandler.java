@@ -111,4 +111,26 @@ public class DBHandler extends SQLiteOpenHelper {
             db.close();
         }
     }
+
+    public boolean changePasswordOfStudent(final String email, final String pass) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(StudentRegistrationParams.PASSWORD,pass);
+            Log.d("inDB","wait");
+            int rows = db.update(StudentRegistrationParams.REGISTER_STUDENTS_TBL,values,StudentRegistrationParams.EMAIL_ID+"=?",new String[]{email});
+            if(rows==1)
+            {
+                Log.d("inDB","success");
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            Log.d("updateERR",e.toString());
+            return false;
+        }
+    }
 }

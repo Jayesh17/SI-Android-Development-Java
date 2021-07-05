@@ -23,17 +23,17 @@ public class OTPDialog extends AppCompatDialogFragment {
     Integer OTP;
     String category;
     int otpReceived;
-    public static int isVerified;
+    public static int isVerified=-1;
+    AlertDialog.Builder builder;
     public OTPDialog(Integer OTP,String category)
     {
         this.OTP = OTP;
         this.category = category;
-        isVerified = -1;
     }
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.layout_otpdialog, null);
@@ -69,7 +69,7 @@ public class OTPDialog extends AppCompatDialogFragment {
                 isVerified= 1;
             }
             else {
-                isVerified = 0;
+                    isVerified = -2;
             }
         }
     };

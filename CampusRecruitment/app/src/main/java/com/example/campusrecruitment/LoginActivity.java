@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
     String email;
     String pass;
 
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
+
     MainController controller;
     public static Context context;
 
@@ -40,6 +46,31 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public void saveLoginCredentials(final String mail,final String pass)
+    {
+        boolean toBeSaved = sp.getBoolean("isChecked",false);
+        if(toBeSaved)
+        {
+            Log.d("save","in save "+mail+pass);
+            editor.putString("EMAIL",mail);
+            editor.apply();
+            editor.putString("PASSWORD",pass);
+            editor.apply();
+        }
+    }
+
+    private void checkSaveCredentialStatus() {
+        boolean isChecked = sp.getBoolean("isChecked",false);
+        if(isChecked)
+        {
+            String mail = sp.getString("EMAIL","");
+            String pass = sp.getString("PASSWORD","");
+            Log.d("save","in check"+mail+pass);
+            emailView.setText(mail, TextView.BufferType.NORMAL);
+            passView.setText(pass,TextView.BufferType.NORMAL);
+        }
     }
 
     @Override
@@ -71,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(validateFields())
                     {
                         //Toast.makeText(getBaseContext(),"Verified",Toast.LENGTH_SHORT).show();
+                        saveLoginCredentials(email,pass);
                         boolean isVerified = controller.verifyUser(email,pass);
                         if(isVerified)
                         {
@@ -84,6 +116,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        remView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    editor.putBoolean("isChecked",true);
+                    editor.apply();
+                }
+                else {
+                    editor.putBoolean("isChecked",false);
+                    editor.apply();
+                }
+            }
+
+
+        });
     }
 
     public boolean validateFields()
@@ -160,15 +208,32 @@ public class LoginActivity extends AppCompatActivity {
     public void setInitialState()
     {
         roleView = findViewById(R.id.Role);
-        emailView = findViewById(R.id.userMail);
-        passView = findViewById(R.id.userPass);
+
         remView = findViewById(R.id.rm);
         loginBtnView = findViewById(R.id.loginUserBtn);
+
         controller = MainActivity.controller;
         context = getBaseContext();
         roles = getResources().getStringArray(R.array.roleNames);
+
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED); //RatateLock
     }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        emailView = (EditText) findViewById(R.id.userMail);
+        passView = (EditText)findViewById(R.id.userPass);
+        sp = getSharedPreferences("loginCredentials",MODE_PRIVATE);
+        editor= sp.edit();
+        remView.setChecked(false);
+        editor.putBoolean("isChecked",true);
+        editor.apply();
+        checkSaveCredentialStatus();
+    }
+
     public void regAct(View view)
     {
         Intent reg = new Intent(this, RegisterActivity.class);

@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.campusrecruitment.BasicOperations.FirstTimeAuthentication;
@@ -39,6 +40,8 @@ public class StudentRegisterActivity extends AppCompatActivity {
     private Button submitView;
     public static Context context;
     public static FragmentManager fragmentManager;
+    public static ProgressBar regLoading;
+
     String email;
     String name ;
     String pass;
@@ -60,12 +63,12 @@ public class StudentRegisterActivity extends AppCompatActivity {
                 Boolean isValidated = validateForm();
                 if(isValidated)
                 {
-                    Toast.makeText(StudentRegisterActivity.context,"Please wait...",Toast.LENGTH_LONG).show();
                     if(controller.checkIfStudentExists(email))
                     {
                         Toast.makeText(StudentRegisterActivity.context,"Student with Mail ID "+email+" Already Registered.",Toast.LENGTH_LONG).show();
                     }
                     else {
+                        regLoading.setVisibility(View.VISIBLE);
                         OTPAuthentication();
                         checkHandler.postDelayed(isVerified,1000);
                     }
@@ -76,6 +79,7 @@ public class StudentRegisterActivity extends AppCompatActivity {
 
     private void openLogin()
     {
+        regLoading.setVisibility(View.INVISIBLE);
         Intent loginPage = new Intent(getBaseContext(),LoginActivity.class);
         startActivity(loginPage);
         finish();
@@ -91,9 +95,18 @@ public class StudentRegisterActivity extends AppCompatActivity {
                  controller.registerStudent(email,name,pass);
                  openLogin();
             }
+            else if(OTPDialog.isVerified==-2){
+                regLoading.setVisibility(View.INVISIBLE);
+                Log.d("callbacks","Canceled");
+                Toast.makeText(StudentRegisterActivity.context,"OTP Wrong, request new OTP by submitting form again.",Toast.LENGTH_LONG).show();
+                OTPDialog.isVerified=-1;
+                checkHandler.removeCallbacks(this);
+            }
             else if(OTPDialog.isVerified==0){
+                regLoading.setVisibility(View.INVISIBLE);
                 Log.d("callbacks","Canceled");
                 Toast.makeText(StudentRegisterActivity.context,"Operation Canceled.",Toast.LENGTH_LONG).show();
+                OTPDialog.isVerified=-1;
                 checkHandler.removeCallbacks(this);
             }
             else {
@@ -140,13 +153,13 @@ public class StudentRegisterActivity extends AppCompatActivity {
             studEmailView.setError("Please enter valid Email-ID.");
             return false;
         }
-        String getDomain = email.substring(email.indexOf('@')+1);
+        /*String getDomain = email.substring(email.indexOf('@')+1);
         Log.d("emailv",getDomain);
         if(!getDomain.equals("daiict.ac.in"))
         {
             studEmailView.setError("You can only register by your DAIICT Domain Student-ID.");
             return false;
-        }
+        }*/
 
         if(name.isEmpty())
         {
@@ -209,6 +222,8 @@ public class StudentRegisterActivity extends AppCompatActivity {
         studPassView = (EditText)findViewById(R.id.studPass);
         studCPassView = (EditText) findViewById(R.id.studCPass);
         submitView = (Button)findViewById(R.id.studRegisterBtn);
+        regLoading = findViewById(R.id.regLoading);
+
         context = getBaseContext();
         fragmentManager = getSupportFragmentManager();
         checkHandler = new Handler();

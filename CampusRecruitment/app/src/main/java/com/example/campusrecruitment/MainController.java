@@ -26,6 +26,10 @@ public class MainController {
         mailManagement = new MailManagement();
     }
 
+    public static DBHandler getDbHandler() {
+        return dbHandler;
+    }
+
     public static MailManagement getMailManagement() {
         return mailManagement;
     }
