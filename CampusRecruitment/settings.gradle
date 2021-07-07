@@ -1,2 +1,3 @@
+include ':AdminPanel'
 include ':app'
 rootProject.name = "CampusRecruitment"

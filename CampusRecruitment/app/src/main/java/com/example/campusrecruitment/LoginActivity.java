@@ -89,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 emailView.setError(null);
                 passView.setError(null);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

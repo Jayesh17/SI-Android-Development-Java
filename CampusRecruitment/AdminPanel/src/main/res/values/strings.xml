@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AdminPanel</string>
+    <string name="logTItle">Welcome to Admin Portal</string>
+</resources>
