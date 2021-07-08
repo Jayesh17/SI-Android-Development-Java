@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import com.example.campusrecruitment.Params.DBParams;
 import com.example.campusrecruitment.Params.StudentRegistrationParams;
 
 public class DBHandler extends SQLiteOpenHelper {
+
+    SQLiteDatabase readableDB = this.getReadableDatabase();
+    SQLiteDatabase writableDB = this.getWritableDatabase();
 
     public DBHandler(Context context)
     {
@@ -19,7 +21,17 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("init_tbl","table created:"+ StudentRegistrationParams.CREATE_QUERY);
+        //Log.d("init_tbl","table created:"+ adminDBParams.CreateAdminTable);
         db.execSQL(StudentRegistrationParams.CREATE_QUERY);
+        //db.execSQL(adminDBParams.CreateAdminTable);
+    }
+
+    public SQLiteDatabase getReadableDB() {
+        return readableDB;
+    }
+
+    public SQLiteDatabase getWritableDB() {
+        return writableDB;
     }
 
     //public void storeStudentRegistration();

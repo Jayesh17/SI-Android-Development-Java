@@ -7,7 +7,7 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/adminLogo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/adminLogo" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LoginContaner"
@@ -122,7 +122,7 @@
             app:layout_constraintTop_toBottomOf="@+id/userMail" />
 
         <CheckBox
-            android:id="@+id/rm"
+            android:id="@+id/admin_rm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -143,7 +143,7 @@
             app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rm" />
+            app:layout_constraintTop_toBottomOf="@+id/admin_rm" />
 
         <TextView
             android:id="@+id/forgotLink"

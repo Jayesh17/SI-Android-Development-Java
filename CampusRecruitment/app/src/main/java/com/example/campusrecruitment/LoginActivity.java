@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -208,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
     {
         roleView = findViewById(R.id.Role);
 
-        remView = findViewById(R.id.rm);
+        remView = findViewById(R.id.admin_rm);
         loginBtnView = findViewById(R.id.loginUserBtn);
 
         controller = MainActivity.controller;
