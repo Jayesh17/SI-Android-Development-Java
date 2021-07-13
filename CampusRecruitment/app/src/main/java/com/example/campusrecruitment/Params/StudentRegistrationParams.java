@@ -8,7 +8,7 @@ public class StudentRegistrationParams {
     public static final String PASSWORD = "Password";
 
     public static final String CREATE_QUERY = "" +
-            "CREATE TABLE "+REGISTER_STUDENTS_TBL+"("+
+            "CREATE TABLE IF NOT EXISTS "+REGISTER_STUDENTS_TBL+"("+
             EMAIL_ID+" VARCHAR(30) PRIMARY KEY,"+
             SNAME+" VARCHAR(50) NOT NULL,"+
             PASSWORD+" VARCHAR(16) NOT NULL);";

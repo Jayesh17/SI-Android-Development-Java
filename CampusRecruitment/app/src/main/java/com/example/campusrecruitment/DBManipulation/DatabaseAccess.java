@@ -4,45 +4,37 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.example.campusrecruitment.Params.DBParams;
+
 import com.example.campusrecruitment.Params.StudentRegistrationParams;
 
-public class DBHandler extends SQLiteOpenHelper {
+public class DatabaseAccess {
 
-    SQLiteDatabase readableDB = this.getReadableDatabase();
-    SQLiteDatabase writableDB = this.getWritableDatabase();
+    private static DatabaseAccess instance=null;
+    private DBOpenHelper dbOpenHelper;
 
-    public DBHandler(Context context)
+    private DatabaseAccess(Context context)
     {
-        super(context, DBParams.DB_NAME,null,DBParams.DB_VERSION);
+        dbOpenHelper = new DBOpenHelper(context);
     }
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.d("init_tbl","table created:"+ StudentRegistrationParams.CREATE_QUERY);
-        //Log.d("init_tbl","table created:"+ adminDBParams.CreateAdminTable);
+
+    public static DatabaseAccess getInstance(Context context)
+    {
+        if(instance==null)
+        {
+            instance = new DatabaseAccess(context);
+        }
+        return instance;
+    }
+    public void createInitialTables()
+    {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         db.execSQL(StudentRegistrationParams.CREATE_QUERY);
-        //db.execSQL(adminDBParams.CreateAdminTable);
-    }
-
-    public SQLiteDatabase getReadableDB() {
-        return readableDB;
-    }
-
-    public SQLiteDatabase getWritableDB() {
-        return writableDB;
-    }
-
-    //public void storeStudentRegistration();
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.close();
     }
 
     public boolean saveStudentInformation(final String email,final String name,final String pass) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         boolean isDone = false;
         try
         {
@@ -69,10 +61,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public boolean checkIfStudentExists(final String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 
         try {
-           final String selectQuery = "Select "+StudentRegistrationParams.SNAME+" from "+StudentRegistrationParams.REGISTER_STUDENTS_TBL+" where "+StudentRegistrationParams.EMAIL_ID+" like '"+email+"';";
+            final String selectQuery = "Select "+StudentRegistrationParams.SNAME+" from "+StudentRegistrationParams.REGISTER_STUDENTS_TBL+" where "+StudentRegistrationParams.EMAIL_ID+" like '"+email+"';";
 
             Cursor cursor = db.rawQuery(selectQuery,null);
             if(cursor.getCount()==0)
@@ -95,7 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public StudentRegistrationParams.status checkUserCredentials(final String email,final String pass) {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         try
         {
             final String selectQuery = "Select * from "+StudentRegistrationParams.REGISTER_STUDENTS_TBL+" where "+StudentRegistrationParams.EMAIL_ID+" like '"+email+"';";
@@ -126,7 +118,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public boolean changePasswordOfStudent(final String email, final String pass) {
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
             values.put(StudentRegistrationParams.PASSWORD,pass);

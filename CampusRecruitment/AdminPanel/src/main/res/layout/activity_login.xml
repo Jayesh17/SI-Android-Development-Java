@@ -8,12 +8,13 @@
 
     <ImageView
         android:id="@+id/adminLogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
         app:srcCompat="@drawable/adminlogo" />
 
     <TextView
@@ -29,20 +30,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminLogo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle">
+        app:layout_constraintTop_toBottomOf="@+id/adminLogo">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/IDLayout"
@@ -55,11 +57,12 @@
                 app:counterMaxLength="8"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:prefixText=" AD"
+                app:helperTextTextColor="@color/red"
                 app:startIconDrawable="@android:drawable/ic_menu_myplaces">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/AdminID"
+                    android:inputType="textWebEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="8" />
@@ -77,9 +80,9 @@
                 android:hint="Password"
                 app:counterEnabled="true"
                 app:counterMaxLength="16"
-                app:endIconMode="clear_text"
+                app:endIconMode="password_toggle"
                 app:errorEnabled="true"
-                app:prefixText=" AD"
+                app:helperTextTextColor="@color/red"
                 app:startIconDrawable="@android:drawable/ic_lock_lock">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -103,7 +106,7 @@
                 app:layout_constraintTop_toBottomOf="parent" />
 
             <Button
-                android:id="@+id/loginBtn"
+                android:id="@+id/adLoginBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="130dp"
@@ -117,6 +120,17 @@
                 android:textSize="10sp"
                 app:backgroundTint="#FFFFFFFF"
                 app:iconPadding="0dp" />
+
+            <TextView
+                android:id="@+id/forgotLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/forgotpass"
+                android:textColor="#54A2E6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginUserBtn" />
 
         </LinearLayout>
     </ScrollView>

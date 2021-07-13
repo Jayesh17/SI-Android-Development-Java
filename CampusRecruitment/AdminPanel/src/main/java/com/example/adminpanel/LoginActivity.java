@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.adminpanel.AdminBGTasks.InitializeDB;
+import com.example.adminpanel.AdminBGTasks.GetAccessOfDB;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -16,7 +16,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setInitialState() {
-        InitializeDB initializeDB = new InitializeDB();
-        initializeDB.execute();
+
+        GetAccessOfDB access = new GetAccessOfDB(getApplicationContext());
+        access.execute();
     }
 }

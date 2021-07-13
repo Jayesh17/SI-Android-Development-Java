@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AdminPanel</string>
     <string name="logTItle">Welcome to Admin Portal</string>
+    <string name="forgotpass">Forgot Password?</string>
 </resources>

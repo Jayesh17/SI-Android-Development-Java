@@ -1,7 +1,5 @@
 package com.example.campusrecruitment.BasicOperations;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -10,34 +8,27 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.example.campusrecruitment.ChangePasswordActivity;
-import com.example.campusrecruitment.DBManipulation.DBHandler;
+import com.example.campusrecruitment.DBManipulation.DatabaseAccess;
 import com.example.campusrecruitment.ForgotPasswordActivity;
 import com.example.campusrecruitment.LoginActivity;
-import com.example.campusrecruitment.MainActivity;
 import com.example.campusrecruitment.MainController;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class ChangePasswordHandler {
 
     MailManagement mailManagement;
-    DBHandler dbHandler;
     int OTP;
+    DatabaseAccess databaseAccess;
 
     public ChangePasswordHandler()
     {
         mailManagement = MainController.getMailManagement();
-        dbHandler = MainController.getDbHandler();
+        databaseAccess = DatabaseAccess.getInstance(LoginActivity.context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -93,7 +84,7 @@ public class ChangePasswordHandler {
     public void changePasswordForStudent(final String email, final String pass) {
 
         CompletableFuture<Boolean> task = CompletableFuture.supplyAsync(()->{
-            return dbHandler.changePasswordOfStudent(email,pass);
+            return databaseAccess.changePasswordOfStudent(email,pass);
         });
 
         boolean isDone = false;

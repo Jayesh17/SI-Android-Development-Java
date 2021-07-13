@@ -1,33 +1,25 @@
 package com.example.campusrecruitment;
 
-import android.icu.text.UnicodeSetSpanner;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.campusrecruitment.BackGroundTasks.InitBGTask;
 import com.example.campusrecruitment.BasicOperations.MailManagement;
-import com.example.campusrecruitment.DBManipulation.DBHandler;
+import com.example.campusrecruitment.DBManipulation.DatabaseAccess;
 import com.example.campusrecruitment.Params.StudentRegistrationParams;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 public class MainController {
 
-    public static DBHandler dbHandler;
     public static MailManagement mailManagement;
     InitBGTask createDB;
+    DatabaseAccess databaseAccess;
 
     public MainController()
     {
-        createDB = new InitBGTask();
-        createDB.execute();
         mailManagement = new MailManagement();
-    }
-
-    public static DBHandler getDbHandler() {
-        return dbHandler;
+        databaseAccess = DatabaseAccess.getInstance(MainActivity.context);
+        createDB = new InitBGTask();
+        createDB.execute(databaseAccess);
     }
 
     public static MailManagement getMailManagement() {
@@ -42,7 +34,7 @@ public class MainController {
            @Override
            public void run() {
 
-                if(dbHandler.saveStudentInformation(email,name,pass))
+                if(databaseAccess.saveStudentInformation(email,name,pass))
                 {
                     Log.d("RegSuccess","Student inserted.");
                     Toast.makeText(StudentRegisterActivity.context,"Student Registered Successfully.",Toast.LENGTH_LONG).show();
@@ -58,16 +50,16 @@ public class MainController {
 
     public boolean checkIfStudentExists(final String email)
     {
-        return dbHandler.checkIfStudentExists(email);
+        return databaseAccess.checkIfStudentExists(email);
 
     }
 
     public boolean verifyUser(final String email, final String pass) {
 
         StudentRegistrationParams.status currStatus;
-        currStatus= dbHandler.checkUserCredentials(email,pass);
+        currStatus= databaseAccess.checkUserCredentials(email,pass);
 
-        if(currStatus== StudentRegistrationParams.status.ERROR)
+        if(currStatus == StudentRegistrationParams.status.ERROR)
         {
             Toast.makeText(LoginActivity.context,"Something went Wrong, Try again later.",Toast.LENGTH_LONG).show();
             return false;
