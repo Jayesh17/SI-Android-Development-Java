@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "354648730673",
+    "project_id": "chattogether-19397",
+    "storage_bucket": "chattogether-19397.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354648730673:android:9a0b5527629b1d42c9f910",
+        "android_client_info": {
+          "package_name": "com.example.chattogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354648730673-cf5bnp2h4a699rub014kem6tm3ucnagj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQx2mdxcNsd6WzLbqbPMJDvF2LeIaJRBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354648730673-cf5bnp2h4a699rub014kem6tm3ucnagj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
