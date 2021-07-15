@@ -4,53 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="20dp"
+    android:layout_margin="@dimen/_10sdp"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/loginLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo2" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/reg_sape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/hammersmith_one"
-        android:text="Welcome Back !"
-        android:textColor="#373434"
-        android:textSize="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/loginLogo"
-        app:layout_constraintStart_toEndOf="@+id/loginLogo"
-        app:layout_constraintTop_toTopOf="@+id/loginLogo" />
-
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginLogo">
-
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:isScrollContainer="true"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:overScrollMode="always"
-            android:scrollbars="vertical">
+            android:gravity="center"
+            android:layout_alignParentStart="true">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                app:srcCompat="@drawable/logo5"
+                android:layout_marginTop="@dimen/_10sdp"
+                >
+            </androidx.appcompat.widget.AppCompatImageView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hammersmith_one"
+                android:text="Chat Together!"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hammersmith_one"
+                android:text="Welcome Back!"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email"
@@ -58,24 +55,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="20dp"
                 android:hint="Email"
-                app:boxStrokeColor="#1E1D1D"
+
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="#FFFFFF"
+                app:boxStrokeErrorColor="#F60606"
+
                 app:endIconMode="clear_text"
-                app:endIconTint="#0C0C0C"
+                app:endIconTint="#FFFFFF"
                 app:errorEnabled="true"
-                app:errorIconDrawable="@android:drawable/stat_notify_error"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorTextColor="#FFFFFF"
                 app:helperTextEnabled="false"
                 app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:helperTextTextColor="@color/red"
-                app:startIconCheckable="false"
-                app:startIconTint="#FFFFFF">
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white"
+                app:startIconCheckable="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -87,17 +91,22 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:hint="Password"
-                app:boxStrokeColor="#1E1D1D"
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="#FFFFFF"
+                app:boxStrokeErrorColor="#F60505"
                 app:counterEnabled="true"
                 app:counterMaxLength="16"
+                app:counterTextColor="@color/white"
                 app:endIconMode="password_toggle"
-                app:endIconTint="#0C0C0C"
+                app:endIconTint="#FFFFFF"
                 app:errorEnabled="true"
-                app:errorIconDrawable="@android:drawable/stat_notify_error"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorTextColor="#FFFFFF"
                 app:helperText="Max 16 Characters, should have numbers,alphabets."
                 app:helperTextEnabled="false"
                 app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:helperTextTextColor="@color/black"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white"
                 app:startIconCheckable="false"
                 app:startIconTint="#FFFFFF">
 
@@ -105,7 +114,9 @@
                     android:id="@+id/passView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,11 +127,41 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="100dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#F4511E"
                 android:text="Login"
+                android:textColor="#FFFFFF"
                 app:cornerRadius="20dp" />
 
-        </LinearLayout>
-    </ScrollView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                ><TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New User?"
+                android:textColor="@color/white"
+                android:fontFamily="@font/hammersmith_one"
+                ></TextView>
+
+                <TextView
+                    android:id="@+id/registerClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="#FFFFFF"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/hammersmith_one"
+                    android:onClick="redirectRegistration"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Register Here."
+                    android:textColor="#F4511E"></TextView>
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
