@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         passView = findViewById(R.id.passView);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-
         loginBtn = findViewById(R.id.loginBtn);
+        auth = FirebaseAuth.getInstance();
     }
 
     public boolean validateForm()
@@ -103,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(LoginActivity.this,"Sign in successfull",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                finish();
                             }
                             else {
                                 Toast.makeText(LoginActivity.this,"Something went Wrong, please check network connection and Try again.",Toast.LENGTH_SHORT).show();
@@ -123,5 +125,11 @@ public class LoginActivity extends AppCompatActivity {
     {
         startActivity(new Intent(getBaseContext(),RegistrationActivity.class));
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

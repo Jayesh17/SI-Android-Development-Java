@@ -1,8 +1,6 @@
-package com.example.campusrecruitment.BasicOperations;
+package com.example.chattogether;
 
 import android.util.Log;
-
-import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -11,24 +9,29 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class MailManagement {
-    public static final String userName= "recruiteasy01@gmail.com";
 
-    public static final String password= "RecruitEasy@01";
+    private static final String userName= "chattogether1607@gmail.com";
 
-    final String OTP_AUTH_SUBJECT="Welcome to RecruitEasy!";
+    private static final String password= "ChatTogether8781";
+
+    final String OTP_AUTH_SUBJECT="Welcome to Chat Together!";
     final String OTP_AUTH_MSG="Your One-Time Password for Registration is:";
 
     final String CP_REQUEST_SUBJECT="Change Password Confirmation";
     final String CP_REQUEST_MSG="Your One-Time Password to change your password is:";
 
     final String REGARD= "Thanks And Regards";
-    final String COM_NAME="RecruitEasy!";
+    final String COM_NAME="Chat Together!";
 
     private Properties prop;
     private Session session;
-    public MailManagement()
+
+    private static MailManagement mailManagement=null;
+
+    private MailManagement()
     {
         prop = new Properties();
         prop.put("mail.smtp.auth","true");
@@ -42,9 +45,18 @@ public class MailManagement {
                 return new PasswordAuthentication(userName,password);
             }
         });
-
     }
-    public boolean registerUserAuthentication(String recipient,Integer OTP)
+
+    public static MailManagement getInstance()
+    {
+        if(mailManagement==null)
+        {
+            mailManagement = new MailManagement();
+        }
+        return mailManagement;
+    }
+
+    public ConditionCheckers.SEND_MAIL registerUserAuthentication(String recipient,Integer OTP)
     {
         try
         {
@@ -58,28 +70,9 @@ public class MailManagement {
         catch (MessagingException e)
         {
             Log.d("mailERR:",e.toString());
-            return false;
+            return ConditionCheckers.SEND_MAIL.ERROR;
         }
-        return true;
+        return ConditionCheckers.SEND_MAIL.DONE;
     }
 
-    public boolean sendOTPForChangePassword(final String recipient,final int OTP) {
-
-        try
-        {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(userName));
-            msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipient));
-            msg.setSubject(CP_REQUEST_SUBJECT);
-            msg.setText(CP_REQUEST_MSG+" "+OTP+"\r\n"+REGARD+"\r\n"+COM_NAME);
-            Transport.send(msg);
-            Log.d("inCall","in Call mail");
-        }
-        catch (Exception e)
-        {
-            Log.d("mailERR:",e.toString());
-            return false;
-        }
-        return true;
-    }
 }

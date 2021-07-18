@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_10sdp"
+    tools:context=".UserAuthActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_sape"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/_30sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/hammersmith_one"
+            android:text="Chat Together!"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/hammersmith_one"
+            android:text="OTP Authentication"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/reg_otp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="OTP"
+            android:textColorHint="@color/white"
+            app:boxStrokeColor="#FFFFFF"
+            app:boxStrokeErrorColor="#FFFFFF"
+            app:counterEnabled="true"
+
+            app:counterMaxLength="4"
+            app:counterTextColor="@color/white"
+            app:endIconMode="clear_text"
+            app:endIconTint="#FFFFFF"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error"
+            app:errorTextColor="@color/white"
+            app:helperTextEnabled="false"
+            app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+            app:helperTextTextColor="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconCheckable="false"
+            app:startIconTint="#FFFFFF">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otpView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/userAuthBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:backgroundTint="#F4511E"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
