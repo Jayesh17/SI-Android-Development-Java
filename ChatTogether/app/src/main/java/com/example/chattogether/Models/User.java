@@ -38,4 +38,8 @@ public class User {
     public String getUID() {
         return UID;
     }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
 }

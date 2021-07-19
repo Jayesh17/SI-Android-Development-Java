@@ -12,6 +12,16 @@
         android:orientation="horizontal"
         android:gravity="end"
         >
+        <ImageView
+            android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_setting"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:onClick="redirectSettings"
+            >
+        </ImageView>
 
         <TextView
             android:layout_width="match_parent"
@@ -19,11 +29,13 @@
             android:text="@string/logoname"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp"
+            android:gravity="center_horizontal"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/hammersmith_one"
             android:layout_marginStart="@dimen/_10sdp"
             ></TextView>
+
         <ImageView
             android:id="@+id/logOutBtn"
             android:layout_width="wrap_content"

@@ -81,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.getChildren())
                 {
                     User user = ds.getValue(User.class);
+                    Log.d("ID",user.getUID());
                     users.add(user);
                 }
                 adapter.notifyDataSetChanged();
@@ -124,5 +125,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void redirectSettings(View view)
+    {
+        startActivity(new Intent(HomeActivity.this,SettingsActivity.class));
     }
 }
