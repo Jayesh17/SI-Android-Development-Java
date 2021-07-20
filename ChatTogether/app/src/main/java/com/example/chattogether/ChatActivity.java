@@ -65,10 +65,13 @@ public class ChatActivity extends AppCompatActivity {
                 .child("messages");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
+        //linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
         msgList.setLayoutManager(linearLayoutManager);
         messageAdapter = new MessageAdapter(ChatActivity.this,messageList);
         msgList.setAdapter(messageAdapter);
+
+        msgList.smoothScrollToPosition(msgList.getBottom());
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

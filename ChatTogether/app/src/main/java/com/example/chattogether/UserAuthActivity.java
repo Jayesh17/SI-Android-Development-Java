@@ -1,10 +1,12 @@
 package com.example.chattogether;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,8 +14,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.chattogether.Models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class UserAuthActivity extends AppCompatActivity {
 
@@ -29,10 +42,9 @@ public class UserAuthActivity extends AppCompatActivity {
     String status;
     String profileUri;
 
-    FireBaseManagement fireBaseManagement;
-
-    public static Context context;
-    public static ConditionCheckers.REGISTER_USER userStatus;
+    FirebaseAuth auth;
+    FirebaseDatabase database;
+    FirebaseStorage storage;
 
     public void setInitialState()
     {
@@ -51,10 +63,7 @@ public class UserAuthActivity extends AppCompatActivity {
         pass = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_PASS);
         profileUri = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_PROFILE);
         status = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_STATUS);
-
-        fireBaseManagement = FireBaseManagement.getInstance();
-        context=getBaseContext();
-        userStatus = ConditionCheckers.REGISTER_USER.PROGRESS;
+        
     }
 
     @Override
@@ -79,30 +88,85 @@ public class UserAuthActivity extends AppCompatActivity {
                 }
                 else {
                     dialog.show();
-                    fireBaseManagement.createUser(Email,pass,name,profileUri,status);
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
+                    auth = FirebaseAuth.getInstance();
+                    database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
+                    storage = FirebaseStorage.getInstance();
+
+                    Log.d("UserData",Email+pass+name+profileUri+status);
+                    auth.createUserWithEmailAndPassword(Email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void run() {
-                            if(UserAuthActivity.userStatus== ConditionCheckers.REGISTER_USER.DONE)
-                            {
-                                dialog.dismiss();
-                                Toast.makeText(getBaseContext(),"User registered Successfully.",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(context,LoginActivity.class));
-                                handler.removeCallbacks(this);
-                                finish();
-                            }
-                            else if(UserAuthActivity.userStatus== ConditionCheckers.REGISTER_USER.ERROR)
-                            {
-                                dialog.dismiss();
-                                handler.removeCallbacks(this);
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                DatabaseReference reference = database.getReference().child("user").child(auth.getUid());
+                                StorageReference storageReference = storage.getReference().child("upload").child(auth.getUid());
+
+                                if(!profileUri.equals("None"))
+                                {
+                                    Log.d("UserData",Email+pass+name+profileUri+status);
+                                    storageReference.putFile(Uri.parse(profileUri)).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                Log.d("UserData",Email+pass+name+profileUri+status);
+                                                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        profileUri = uri.toString();
+                                                        User user = new User(name,Email,profileUri,status,auth.getUid());
+                                                        reference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful())
+                                                                {
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(UserAuthActivity.this,"User Registered Successfully.",Toast.LENGTH_LONG).show();
+                                                                    startActivity(new Intent(UserAuthActivity.this,LoginActivity.class));
+                                                                    finish();
+                                                                }else {
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(UserAuthActivity.this,"Something Went Wrong",Toast.LENGTH_LONG).show();
+
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                dialog.dismiss();
+                                                Toast.makeText(UserAuthActivity.this,"Something Went Wrong",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                                }
+                                else {
+                                    profileUri = "https://firebasestorage.googleapis.com/v0/b/chattogether-19397.appspot.com/o/profile.png?alt=media&token=55170d34-4f1f-4161-9bcb-6b0d4f9e7ad5";
+                                    User user = new User(name,Email,profileUri,status,auth.getUid());
+                                    reference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                dialog.dismiss();
+                                                Toast.makeText(UserAuthActivity.this,"User Registered Successfully.",Toast.LENGTH_LONG).show();
+                                                startActivity(new Intent(UserAuthActivity.this,LoginActivity.class));
+                                                finish();
+                                            }
+                                            else {
+                                                dialog.dismiss();
+                                                Toast.makeText(UserAuthActivity.this,"Something Went Wrong",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                                }
                             }
                             else {
-                                handler.postDelayed(this,1000);
+                                dialog.dismiss();
+                                Toast.makeText(UserAuthActivity.this,"Something Went Wrong",Toast.LENGTH_LONG).show();
                             }
-
                         }
-                    },0);
+                    });
                 }
             }
         });

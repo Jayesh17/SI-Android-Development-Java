@@ -112,7 +112,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     userAuth.putExtra(USER_MAIL_PROFILE,profileUri);
                     userAuth.putExtra(USER_MAIL_STATUS,status);
                     startActivity(userAuth);
-                    finish();
 
                 } else if (operations.getMailStatus() == ConditionCheckers.SEND_MAIL.ERROR) {
                     dialog.dismiss();

@@ -51,12 +51,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
         {
             SenderViewHolder senderViewHolder = (SenderViewHolder) holder;
             senderViewHolder.msg.setText(message.getMessage());
-            Picasso.get().load(ChatActivity.userProfile).into(senderViewHolder.senderProfile);
         }
         else {
             ReceiverViewHolder receiverViewHolder = (ReceiverViewHolder) holder;
             receiverViewHolder.msg.setText(message.getMessage());
-            Picasso.get().load(ChatActivity.receiverProfile).into(receiverViewHolder.receiverProfile);
         }
     }
 
@@ -79,24 +77,20 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     class SenderViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView senderProfile;
         TextView msg;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
-            senderProfile = itemView.findViewById(R.id.senderProfile);
             msg = itemView.findViewById(R.id.senderMSG);
         }
     }
 
     class ReceiverViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView receiverProfile;
         TextView msg;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-            receiverProfile = itemView.findViewById(R.id.receiverProfile);
             msg = itemView.findViewById(R.id.receiverMSG);
         }
     }

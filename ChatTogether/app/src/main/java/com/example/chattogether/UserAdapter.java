@@ -2,15 +2,18 @@ package com.example.chattogether;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chattogether.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,26 +38,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        //users.removeIf(user -> user.getUID()==FirebaseAuth.getInstance().getCurrentUser().getUid());
         User user = users.get(position);
-        holder.userName.setText(user.getName());
-        holder.userStatus.setText(user.getStatus());
-        Picasso.get().load(user.getProfileUri()).into(holder.userProfile);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(homeActivity,ChatActivity.class);
-                intent.putExtra(homeActivity.CHAT_USER_NAME,user.getName());
-                intent.putExtra(homeActivity.CHAT_USER_PROFILE,user.getProfileUri());
-                intent.putExtra(homeActivity.CHAT_USER_ID,user.getUID());
+            holder.userName.setText(user.getName());
+            holder.userStatus.setText(user.getStatus());
+            Picasso.get().load(user.getProfileUri()).into(holder.userProfile);
 
-                homeActivity.startActivity(intent);
-            }
-        });
-    }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(homeActivity,ChatActivity.class);
+                    intent.putExtra(homeActivity.CHAT_USER_NAME,user.getName());
+                    intent.putExtra(homeActivity.CHAT_USER_PROFILE,user.getProfileUri());
+                    intent.putExtra(homeActivity.CHAT_USER_ID,user.getUID());
+
+                    homeActivity.startActivity(intent);
+                }
+            });
+        }
 
     @Override
     public int getItemCount() {

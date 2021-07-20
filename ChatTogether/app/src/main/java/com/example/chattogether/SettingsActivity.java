@@ -16,9 +16,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chattogether.Models.User;
@@ -48,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseStorage storage;
 
-    ImageView saveBtn;
+    TextView saveBtn;
 
     int STORAGE_PERMISSION_CODE = 1;
 
@@ -101,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
                 dialog.show();
                 newName=currUserName.getText().toString();
                 newStatus = currUserStatus.getText().toString();
-
+                Log.d("newName",newName+newStatus);
                 if(newProfile!=null)
                 {
                     storageReference.putFile(newProfile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -111,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     newProfileStr = uri.toString();
-                                    User user = new User(name,email,newProfileStr,status,auth.getUid());
+                                    User user = new User(newName,email,newProfileStr,newStatus,auth.getUid());
                                     databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -138,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             newProfileStr = uri.toString();
-                            User user = new User(name,email,newProfileStr,status,auth.getUid());
+                            User user = new User(newName,email,newProfileStr,newStatus,auth.getUid());
                             databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -244,8 +246,12 @@ public class SettingsActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setMessage("Please Wait..");
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SettingsActivity.this,HomeActivity.class));
+        finish();
+    }
 }

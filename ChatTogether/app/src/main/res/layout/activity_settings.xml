@@ -5,28 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
-    android:background="@drawable/reg_sape"
     android:layout_gravity="center_vertical"
     android:orientation="vertical"
     android:gravity="start"
     android:padding="@dimen/_10sdp"
     >
 
-    <ImageView
-        android:id="@+id/saveBtn"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_save"
-        android:layout_gravity="right"
-        android:layout_margin="@dimen/_15sdp"
-        />
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Edit Profile"
+        android:background="@drawable/reg_sape"
+        android:gravity="center"
+        android:textSize="@dimen/_23sdp"
+        android:textColor="@color/white"
+        android:padding="@dimen/_5sdp"
+        android:fontFamily="@font/hammersmith_one"
+        ></TextView>
+
 
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/currUserProfile"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:src="@drawable/profile"
         android:layout_gravity="center"
         app:civ_border_color="#FF000000"
@@ -36,26 +40,75 @@
         android:id="@+id/currUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@null"
+        android:layout_marginTop="@dimen/_20sdp"
         android:text="@string/logoname"
         android:gravity="center"
+        android:hint="Name"
         android:textSize="@dimen/_23sdp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:fontFamily="@font/hammersmith_one"
         ></EditText>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:gravity="center"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="#7A7979"
+        android:fontFamily="@font/hammersmith_one"
+        ></TextView>
 
     <EditText
         android:id="@+id/currUserStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_15sdp"
-        android:background="@null"
         android:text="Let's Chat Together!"
         android:gravity="center"
         android:textSize="@dimen/_20sdp"
-        android:textColor="@color/white"
+        android:hint="Status"
+        android:textColor="@color/black"
         android:fontFamily="@font/hammersmith_one"
         ></EditText>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:gravity="center"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="#7A7979"
+        android:fontFamily="@font/hammersmith_one"
+        ></TextView>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="Save"
+            android:background="@drawable/reg_sape"
+            android:gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/_40sdp"
+            android:paddingEnd="@dimen/_40sdp"
+            android:padding="@dimen/_5sdp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/hammersmith_one"
+            android:layout_marginBottom="@dimen/_10sdp"
+            ></TextView>
+
+    </LinearLayout>
 
 </LinearLayout>

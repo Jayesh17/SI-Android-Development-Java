@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chattogether.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     public static String CHAT_USER_PROFILE = "com.example.chattogether.HomeActivity.USER_PROFILE";
     public static String CHAT_USER_ID = "com.example.chattogether.HomeActivity.USER_ID";
 
+    boolean doublePressToExit;
     public HomeActivity() {
     }
 
@@ -55,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
         databaseReference = database.getReference().child("user");
+
+        doublePressToExit = false;
 
     }
 
@@ -109,6 +113,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         auth.signOut();
+                        dialog.dismiss();
                         startActivity(new Intent(HomeActivity.this,LoginActivity.class));
                         finish();
                     }
@@ -127,8 +132,22 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if(doublePressToExit)
+        {
+            super.onBackPressed();
+            finish();
+        }else {
+            Toast.makeText(HomeActivity.this,"Press Back again to Exit.",Toast.LENGTH_LONG).show();
+            doublePressToExit = true;
+        }
+    }
+
     public void redirectSettings(View view)
     {
         startActivity(new Intent(HomeActivity.this,SettingsActivity.class));
+        finish();
     }
 }
