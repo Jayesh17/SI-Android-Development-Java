@@ -36,11 +36,13 @@ public class RegistrationActivity extends AppCompatActivity {
     TextInputLayout regPassword;
     TextInputLayout regName;
     TextInputLayout cPassword;
+    TextInputLayout regPhone;
 
     TextInputEditText regEmailView;
     TextInputEditText regNameView;
     TextInputEditText regPassView;
     TextInputEditText CPassView;
+    TextInputEditText regPhoneView;
 
     CircleImageView profileView;
 
@@ -48,6 +50,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String Password;
     String CPassword;
     String Name;
+    String phone;
     String profileUri;
     String status;
 
@@ -60,6 +63,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public static String USER_MAIL_KEY="com.example.chattogether.RegistrationActivity.USER_MAIL";
     public static String USER_MAIL_OTP="com.example.chattogether.RegistrationActivity.USER_OTP";
     public static String USER_MAIL_PASS="com.example.chattogether.RegistrationActivity.USER_PASS";
+    public static String USER_MAIL_PHONE="com.example.chattogether.RegistrationActivity.USER_PHONE";
     public static String USER_MAIL_NAME="com.example.chattogether.RegistrationActivity.USER_NAME";
     public static String USER_MAIL_PROFILE="com.example.chattogether.RegistrationActivity.USER_PROFILE";
     public static String USER_MAIL_STATUS="com.example.chattogether.RegistrationActivity.USER_STATUS";
@@ -72,12 +76,14 @@ public class RegistrationActivity extends AppCompatActivity {
         regName = findViewById(R.id.reg_name);
         regPassword = findViewById(R.id.reg_password);
         cPassword = findViewById(R.id.cpassword);
+        regPhone = findViewById(R.id.reg_phone);
 
         regEmailView = findViewById(R.id.regEmailView);
         regPassView = findViewById(R.id.regPassView);
         regNameView = findViewById(R.id.regNameView);
         CPassView = findViewById(R.id.cpassView);
         profileView = findViewById(R.id.profile_image);
+        regPhoneView = findViewById(R.id.regPhoneView);
 
         registerBtn = findViewById(R.id.registerBtn);
 
@@ -107,6 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Intent userAuth = new Intent(RegistrationActivity.this,UserAuthActivity.class);
                     userAuth.putExtra(USER_MAIL_OTP,String.valueOf(otp));
                     userAuth.putExtra(USER_MAIL_KEY,Email);
+                    userAuth.putExtra(USER_MAIL_PHONE,phone);
                     userAuth.putExtra(USER_MAIL_NAME,Name);
                     userAuth.putExtra(USER_MAIL_PASS,Password);
                     userAuth.putExtra(USER_MAIL_PROFILE,profileUri);
@@ -223,6 +230,7 @@ public class RegistrationActivity extends AppCompatActivity {
         regPassword.setError(null);
         cPassword.setError(null);
         regName.setError(null);
+        regPhone.setError(null);
     }
 
     private boolean validateForm() {
@@ -231,6 +239,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Password = regPassView.getText().toString();
         CPassword = CPassView.getText().toString();
         Name = regNameView.getText().toString();
+        phone = regPhoneView.getText().toString();
 
         if(Email.isEmpty())
         {
@@ -240,6 +249,17 @@ public class RegistrationActivity extends AppCompatActivity {
         if(Email.indexOf('@')==-1)
         {
             regEmail.setError("*Please enter valid Email Address.");
+            return false;
+        }
+
+        if(phone.isEmpty())
+        {
+            regPhone.setError("*This field is required.");
+            return false;
+        }
+        else if (phone.length()<10)
+        {
+            regPhone.setError("*Please provide valid phone number.");
             return false;
         }
 

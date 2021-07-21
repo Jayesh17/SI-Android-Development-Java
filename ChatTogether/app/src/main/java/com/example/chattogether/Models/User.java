@@ -4,6 +4,7 @@ public class User {
 
     String name;
     String email;
+    String phone;
     String status;
     String profileUri;
     String UID;
@@ -11,12 +12,17 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String profileUri,String status, String UID) {
+    public User(String name, String email, String phone, String status, String profileUri, String UID) {
         this.name = name;
         this.email = email;
-        this.profileUri = profileUri;
+        this.phone = phone;
         this.status = status;
+        this.profileUri = profileUri;
         this.UID = UID;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public String getStatus() {

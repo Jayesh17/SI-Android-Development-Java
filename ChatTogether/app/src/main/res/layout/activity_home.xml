@@ -12,16 +12,6 @@
         android:orientation="horizontal"
         android:gravity="end"
         >
-        <ImageView
-            android:id="@+id/settingBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_setting"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:onClick="redirectSettings"
-            >
-        </ImageView>
 
         <TextView
             android:layout_width="match_parent"
@@ -29,7 +19,7 @@
             android:text="@string/logoname"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp"
-            android:gravity="center_horizontal"
+            android:gravity="start"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/hammersmith_one"
@@ -49,11 +39,44 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/chatList"
         android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottomNav"
         android:layout_marginTop="@dimen/_10sdp"
-
+        android:layout_marginBottom="@dimen/_10sdp"
         />
 
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/bottom_nav_shape"
+        android:padding="@dimen/_2sdp"
+        >
+        <ImageView
+            android:onClick="redirectAddFriends"
+            android:layout_weight="1"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/add_friend"
+            android:layout_gravity="start"
+            android:layout_marginEnd="@dimen/_10sdp"></ImageView>
+
+
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/edit_icon"
+            android:layout_gravity="end"
+            android:onClick="redirectSettings"
+            android:layout_marginEnd="@dimen/_10sdp"
+            ></ImageView>
+    </LinearLayout>
 </RelativeLayout>

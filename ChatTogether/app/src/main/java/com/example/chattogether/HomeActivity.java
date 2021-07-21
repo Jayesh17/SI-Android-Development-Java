@@ -150,4 +150,9 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(new Intent(HomeActivity.this,SettingsActivity.class));
         finish();
     }
+    public void redirectAddFriends(View view)
+    {
+        startActivity(new Intent(HomeActivity.this,AddFriendActivity.class));
+        finish();
+    }
 }

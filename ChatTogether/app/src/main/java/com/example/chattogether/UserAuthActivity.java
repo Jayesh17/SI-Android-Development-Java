@@ -39,6 +39,7 @@ public class UserAuthActivity extends AppCompatActivity {
     String Email;
     String name;
     String pass;
+    String phone;
     String status;
     String profileUri;
 
@@ -60,10 +61,10 @@ public class UserAuthActivity extends AppCompatActivity {
         Email = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_KEY);
         OTP = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_OTP);
         name = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_NAME);
+        phone = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_PHONE);
         pass = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_PASS);
         profileUri = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_PROFILE);
         status = getIntent.getStringExtra(RegistrationActivity.USER_MAIL_STATUS);
-        
     }
 
     @Override
@@ -113,7 +114,7 @@ public class UserAuthActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
                                                         profileUri = uri.toString();
-                                                        User user = new User(name,Email,profileUri,status,auth.getUid());
+                                                        User user = new User(name,Email,phone,status,profileUri,auth.getUid());
                                                         reference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
@@ -123,6 +124,7 @@ public class UserAuthActivity extends AppCompatActivity {
                                                                     Toast.makeText(UserAuthActivity.this,"User Registered Successfully.",Toast.LENGTH_LONG).show();
                                                                     startActivity(new Intent(UserAuthActivity.this,LoginActivity.class));
                                                                     finish();
+
                                                                 }else {
                                                                     dialog.dismiss();
                                                                     Toast.makeText(UserAuthActivity.this,"Something Went Wrong",Toast.LENGTH_LONG).show();
@@ -142,7 +144,7 @@ public class UserAuthActivity extends AppCompatActivity {
                                 }
                                 else {
                                     profileUri = "https://firebasestorage.googleapis.com/v0/b/chattogether-19397.appspot.com/o/profile.png?alt=media&token=55170d34-4f1f-4161-9bcb-6b0d4f9e7ad5";
-                                    User user = new User(name,Email,profileUri,status,auth.getUid());
+                                    User user = new User(name,Email,phone,status,profileUri,auth.getUid());
                                     reference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

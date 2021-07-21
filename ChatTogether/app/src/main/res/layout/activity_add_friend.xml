@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddFriendActivity">
+
+    <TextView
+        android:id="@+id/headerAddFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:text="Add Friends"
+        android:background="@drawable/reg_sape"
+        android:gravity="center"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/white"
+        android:padding="@dimen/_5sdp"
+        android:fontFamily="@font/hammersmith_one"
+        ></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/headerAddFriend"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/headText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Contacts on Chat Together"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/hammersmith_one"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contactsListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                />
+
+
+
+        </LinearLayout>
+
+</RelativeLayout>
