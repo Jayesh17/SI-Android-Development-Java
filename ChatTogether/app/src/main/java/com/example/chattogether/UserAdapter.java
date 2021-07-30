@@ -58,6 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     intent.putExtra(homeActivity.CHAT_USER_ID,user.getUID());
 
                     homeActivity.startActivity(intent);
+                    homeActivity.finish();
                 }
             });
         }

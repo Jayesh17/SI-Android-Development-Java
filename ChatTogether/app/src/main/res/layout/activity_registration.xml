@@ -103,7 +103,8 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="20dp"
                     android:hint="Phone"
-
+                    app:prefixText="+91"
+                    app:prefixTextColor="@color/white"
                     android:textColorHint="@color/white"
                     app:boxStrokeColor="#FFFFFF"
                     app:boxStrokeErrorColor="#FFFFFF"

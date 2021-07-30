@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chattogether.Models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -31,11 +37,15 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView chatList;
     UserAdapter adapter;
     ImageView logOutBtn;
+    TextView fr_status;
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceFriendList;
+    private DatabaseReference databaseReferenceUser;
 
     private List<User> users;
+
+    ProgressDialog progressDialog;
 
     public static String CHAT_USER_NAME = "com.example.chattogether.HomeActivity.USER_NAME";
     public static String CHAT_USER_PROFILE = "com.example.chattogether.HomeActivity.USER_PROFILE";
@@ -56,10 +66,16 @@ public class HomeActivity extends AppCompatActivity {
         chatList.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
-        databaseReference = database.getReference().child("user");
-
+        Log.d("HOME_C","aaaaa"+auth.getCurrentUser());
+        databaseReferenceFriendList = database.getReference().child("FriendList").child(auth.getUid());
+        databaseReferenceUser = database.getReference().child("user");
         doublePressToExit = false;
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please Wait..");
+        fr_status = findViewById(R.id.fr_status);
+        fr_status.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -72,64 +88,90 @@ public class HomeActivity extends AppCompatActivity {
 
         if(auth.getCurrentUser()==null)
         {
+            Log.d("HOME_C","aaaaa"+auth.getCurrentUser());
             startActivity(new Intent(HomeActivity.this,LoginActivity.class));
             finish();
         }
+        else {
+            setInitialState();
 
-        setInitialState();
+            progressDialog.show();
+            databaseReferenceFriendList.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!snapshot.exists())
+                    {
+                        progressDialog.dismiss();
+                    }
+                    else {
+                        for (DataSnapshot ds : snapshot.getChildren())
+                        {
+                            String userID  = ds.getValue(String.class);
+                            databaseReferenceUser.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    HashMap<String,String> values = new HashMap<>();
+                                    for(DataSnapshot ds : snapshot.getChildren())
+                                    {
+                                        values.put(ds.getKey(),ds.getValue(String.class));
+                                    }
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // to get all the child of database.
-                for(DataSnapshot ds : snapshot.getChildren())
-                {
-                    User user = ds.getValue(User.class);
-                    Log.d("ID",user.getUID());
-                    users.add(user);
+                                    User user = new User(values.get("name"),values.get("email"),values.get("phone"),values.get("status"),values.get("profileUri"),values.get("uid"));
+                                    Log.d("ID",user.getUID());
+                                    users.add(user);
+                                    fr_status.setVisibility(View.GONE);
+                                    adapter.notifyDataSetChanged();
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    progressDialog.dismiss();
+                                }
+                            });
+                            progressDialog.dismiss();
+                        }
+                    }
+
                 }
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressDialog.dismiss();
+                }
+            });
 
-            }
-        });
+            logOutBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Dialog dialog = new Dialog(HomeActivity.this,R.style.logOutDialog);
+                    dialog.setContentView(R.layout.layout_logout_dialog);
 
-        logOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    TextView yesBtn, noBtn;
+                    yesBtn = dialog.findViewById(R.id.logoutYesBtn);
+                    noBtn = dialog.findViewById(R.id.logoutNoBtn);
 
-                Dialog dialog = new Dialog(HomeActivity.this,R.style.logOutDialog);
-                dialog.setContentView(R.layout.layout_logout_dialog);
+                    yesBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            auth.signOut();
+                            Log.d("USERCURRENT",auth.getCurrentUser()+"");
+                            dialog.dismiss();
+                            startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                            finish();
+                        }
+                    });
 
-                TextView yesBtn, noBtn;
-                yesBtn = dialog.findViewById(R.id.logoutYesBtn);
-                noBtn = dialog.findViewById(R.id.logoutNoBtn);
+                    noBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                yesBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        auth.signOut();
-                        dialog.dismiss();
-                        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
-                        finish();
-                    }
-                });
-
-                noBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
-            }
-        });
-
+                    dialog.show();
+                }
+            });
+        }
     }
 
     @Override
@@ -147,11 +189,13 @@ public class HomeActivity extends AppCompatActivity {
 
     public void redirectSettings(View view)
     {
+        overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
         startActivity(new Intent(HomeActivity.this,SettingsActivity.class));
         finish();
     }
     public void redirectAddFriends(View view)
     {
+        overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
         startActivity(new Intent(HomeActivity.this,AddFriendActivity.class));
         finish();
     }

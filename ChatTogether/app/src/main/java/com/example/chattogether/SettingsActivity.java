@@ -45,6 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
     CircleImageView currUserProfile;
     EditText currUserName;
     EditText currUserStatus;
+    EditText currUserMail;
+    EditText currUserPhone;
 
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -55,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
     int STORAGE_PERMISSION_CODE = 1;
 
     String email;
+    String phone;
     String name;
     String status;
     String profileUri;
@@ -82,12 +85,15 @@ public class SettingsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 name = snapshot.child("name").getValue().toString();
+                phone = snapshot.child("phone").getValue().toString();
                 email = snapshot.child("email").getValue().toString();
                 profileUri = snapshot.child("profileUri").getValue().toString();
                 status = snapshot.child("status").getValue().toString();
 
                 currUserName.setText(""+name);
                 currUserStatus.setText(""+status);
+                currUserMail.setText(""+email);
+                currUserPhone.setText(""+phone);
                 Picasso.get().load(profileUri).into(currUserProfile);
             }
 
@@ -113,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     newProfileStr = uri.toString();
-                                    User user = new User(newName,email,newProfileStr,newStatus,auth.getUid());
+                                    User user = new User(newName,email,phone,newStatus,newProfileStr,auth.getUid());
                                     databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -140,7 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             newProfileStr = uri.toString();
-                            User user = new User(newName,email,newProfileStr,newStatus,auth.getUid());
+                            User user = new User(newName,email,phone,newStatus,newProfileStr,auth.getUid());
                             databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -178,7 +184,7 @@ public class SettingsActivity extends AppCompatActivity {
             pickProfile();
         } else {
             getStoragePermission();
-        }
+           }
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -236,6 +242,8 @@ public class SettingsActivity extends AppCompatActivity {
         currUserProfile = findViewById(R.id.currUserProfile);
         currUserName = findViewById(R.id.currUserName);
         currUserStatus = findViewById(R.id.currUserStatus);
+        currUserMail = findViewById(R.id.currUserMail);
+        currUserPhone = findViewById(R.id.currUserPhone);
 
         saveBtn = findViewById(R.id.saveBtn);
 

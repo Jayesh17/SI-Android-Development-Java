@@ -93,6 +93,7 @@ public class UserAuthActivity extends AppCompatActivity {
                     database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
                     storage = FirebaseStorage.getInstance();
 
+
                     Log.d("UserData",Email+pass+name+profileUri+status);
                     auth.createUserWithEmailAndPassword(Email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -120,6 +121,7 @@ public class UserAuthActivity extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful())
                                                                 {
+
                                                                     dialog.dismiss();
                                                                     Toast.makeText(UserAuthActivity.this,"User Registered Successfully.",Toast.LENGTH_LONG).show();
                                                                     startActivity(new Intent(UserAuthActivity.this,LoginActivity.class));

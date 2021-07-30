@@ -58,6 +58,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="20dp"
                 android:hint="Email"
+                android:focusableInTouchMode="true"
+                android:focusable="false"
 
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="#FFFFFF"
@@ -147,7 +149,7 @@
                     android:background="#FFFFFF"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/hammersmith_one"
-                    android:onClick="redirectRegistration"
+                    android:onClick="redirectForgotPass"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:text="Forgot Password?"

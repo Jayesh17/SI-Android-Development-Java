@@ -20,6 +20,12 @@
         <item name="windowNoTitle">true</item>
         <item name="windowMinWidthMajor">80%</item>
         <item name="windowActionBar">false</item>
+    </style>
 
+    <style name="clearChatDialog">
+        <item name="background">@drawable/window_bg</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowMinWidthMajor">80%</item>
+        <item name="windowActionBar">false</item>
     </style>
 </resources>

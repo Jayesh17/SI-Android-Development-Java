@@ -46,8 +46,20 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 />
 
-
-
         </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/per_status"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:textSize="@dimen/_20sdp"
+        android:text="Permission Denied"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:textColor="#A6A3A3"
+        tools:ignore="RtlCompat" />
 
 </RelativeLayout>

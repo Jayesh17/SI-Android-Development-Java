@@ -17,13 +17,21 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pd.chocobar.ChocoBar;
 
 import java.util.Random;
 
@@ -53,6 +61,8 @@ public class RegistrationActivity extends AppCompatActivity {
     String phone;
     String profileUri;
     String status;
+
+    FirebaseAuth auth;
 
     Button registerBtn;
 
@@ -95,6 +105,8 @@ public class RegistrationActivity extends AppCompatActivity {
         status = "Let's Chat Together!";
         operations = BasicOperations.getInstance();
         mailHandler = new Handler();
+
+        auth = FirebaseAuth.getInstance();
 
     }
 
@@ -187,11 +199,42 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 removeErrors();
-                boolean isValidated = validateForm();
-                if(isValidated)
+                Email = regEmailView.getText().toString();
+                if(Email.isEmpty())
                 {
-                    dialog.show();
-                    OTPAuthentication();
+                    regEmail.setError("*This field is required.");
+                }
+                else if(Email.indexOf('@')==-1)
+                {
+                    regEmail.setError("*Please enter valid Email Address.");
+                }
+                else {
+                    auth.fetchSignInMethodsForEmail(Email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                            Log.d("EMAIL_CHECK",Email+isNewUser);
+                            if (isNewUser) {
+                                boolean isValidated = validateForm();
+                                if(isValidated)
+                                {
+                                    dialog.show();
+                                    OTPAuthentication();
+                                }
+                            } else {
+                                ChocoBar.builder().setActivity(RegistrationActivity.this)
+                                        .setText("Email already exists.")
+                                        .setDuration(ChocoBar.LENGTH_LONG)
+                                        .red()  // in built green ChocoBar
+                                        .show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            regEmail.setError("*Please enter valid Email Address.");
+                        }
+                    });
                 }
             }
         });
@@ -235,22 +278,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        Email = regEmailView.getText().toString();
+
         Password = regPassView.getText().toString();
         CPassword = CPassView.getText().toString();
         Name = regNameView.getText().toString();
         phone = regPhoneView.getText().toString();
+        phone = "+91"+phone;
 
-        if(Email.isEmpty())
-        {
-            regEmail.setError("*This field is required.");
-            return false;
-        }
-        if(Email.indexOf('@')==-1)
-        {
-            regEmail.setError("*Please enter valid Email Address.");
-            return false;
-        }
 
         if(phone.isEmpty())
         {

@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ContactAdapter extends RecyclerView.Adapter {
 
@@ -32,7 +33,6 @@ public class ContactAdapter extends RecyclerView.Adapter {
     public ContactAdapter(Context context, List<Contact> contactList) {
         this.context = context;
         this.contactList = contactList;
-
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
     }
@@ -57,14 +57,26 @@ public class ContactAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 DatabaseReference databaseReference = database.getReference().child("FriendList").child(auth.getUid());
-                databaseReference.push().setValue(contact.getUserID()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseReference.child("friend").setValue(contact.getUserID()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful())
                         {
-                            Toast.makeText(AddFriendActivity.context,"Friend Added Successfully",Toast.LENGTH_LONG).show();
-                            contactViewHolder.addAsFriendBtn.setClickable(false);
-                            contactViewHolder.addAsFriendBtn.setEnabled(false);
+
+                            database.getReference().child("FriendList").child(contact.getUserID()).child("friend").setValue(auth.getUid()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(AddFriendActivity.context,"Friend Added Successfully",Toast.LENGTH_LONG).show();
+                                        contactViewHolder.addAsFriendBtn.setClickable(false);
+                                        contactViewHolder.addAsFriendBtn.setEnabled(false);
+                                    }
+                                    else {
+                                        Toast.makeText(AddFriendActivity.context,"Something Went Wrong while adding friend.",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }
                         else {
                             Toast.makeText(AddFriendActivity.context,"Something Went Wrong while adding friend.",Toast.LENGTH_LONG).show();

@@ -6,14 +6,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.chattogether.Models.Message;
+import com.example.chattogether.NotificationManagement.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.pd.chocobar.ChocoBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
     String receiverUID;
     String userID;
 
+    String userName;
     public static String userProfile;
     public static String receiverProfile;
 
@@ -54,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
     List<Message> messageList;
     MessageAdapter messageAdapter;
 
+    String senderToken;
+    String receiverToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +77,24 @@ public class ChatActivity extends AppCompatActivity {
                 .child("messages");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        //linearLayoutManager.setStackFromEnd(true);
-        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        //linearLayoutManager.setReverseLayout(true);
         msgList.setLayoutManager(linearLayoutManager);
         messageAdapter = new MessageAdapter(ChatActivity.this,messageList);
         msgList.setAdapter(messageAdapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                linearLayoutManager.scrollToPosition(msgList.getBottom());
+            }
+        },100);
 
-        msgList.smoothScrollToPosition(msgList.getBottom());
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userProfile = snapshot.child("profileUri").getValue().toString();
+                userName = snapshot.child("name").getValue().toString();
 
             }
 
@@ -94,6 +112,9 @@ public class ChatActivity extends AppCompatActivity {
                 {
                     Message message = snap.getValue(Message.class);
                     messageList.add(message);
+                    msgList.smoothScrollToPosition(msgList.getBottom());
+                    //messageAdapter.notifyDataSetChanged();
+                    //msgList.smoothScrollToPosition(msgList.getBottom());
                 }
                 messageAdapter.notifyDataSetChanged();
             }
@@ -114,7 +135,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 msgView.setText("");
                 Date date = new Date();
-
                 Message message = new Message(userID,msg,date.getTime());
                 database.getReference()
                         .child("chats")
@@ -129,11 +149,14 @@ public class ChatActivity extends AppCompatActivity {
                                         .child(receiverRoom)
                                         .child("messages")
                                         .push().setValue(message);
+
+                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(receiverToken,userName,message.getMessage(),getApplicationContext(),ChatActivity.this);
+
+                                notificationsSender.SendNotifications();
                             }
                         });
             }
         });
-
     }
 
     private void setInitialState() {
@@ -159,5 +182,104 @@ public class ChatActivity extends AppCompatActivity {
         receiverRoom = receiverUID+userID;
 
         messageList = new ArrayList<>();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+
+        DatabaseReference tokenReference = database.getReference().child("tokens");
+        tokenReference.child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                senderToken =snapshot.getValue(String.class);
+                Log.d("TOKENS",senderToken);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        tokenReference.child(receiverUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                receiverToken = snapshot.getValue(String.class);
+                Log.d("TOKENS",receiverToken);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ChatActivity.this,HomeActivity.class);
+        overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //msgList.smoothScrollToPosition(msgList.getBottom());
+        //messageAdapter.notifyDataSetChanged();
+
+    }
+
+    public void clearChats(View v)
+    {
+        Dialog dialog = new Dialog(ChatActivity.this,R.style.clearChatDialog);
+        dialog.setContentView(R.layout.layout_clear_chat_dialog);
+
+        TextView yesBtn, noBtn;
+        yesBtn = dialog.findViewById(R.id.clearChatYesBtn);
+        noBtn = dialog.findViewById(R.id.clearChatNoBtn);
+
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log.d("USERCURRENT",auth.getCurrentUser()+"");
+                DatabaseReference chat = database.getReference().child("chats").child(senderRoom);
+                chat.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        ChocoBar.builder().setActivity(ChatActivity.this)
+                                .setText("chat Deleted Successfully.")
+                                .setDuration(ChocoBar.LENGTH_LONG)
+                                .green()  // in built green ChocoBar
+                                .show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        ChocoBar.builder().setActivity(ChatActivity.this)
+                                .setText("something went wrong.")
+                                .setDuration(ChocoBar.LENGTH_LONG)
+                                .red()  // in built green ChocoBar
+                                .show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

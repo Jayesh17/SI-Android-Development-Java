@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="@dimen/_160sdp"
+    android:layout_height="@dimen/_160sdp"
+    android:layout_margin="@dimen/_10sdp"
+    android:padding="@dimen/_10sdp"
+    android:background="@drawable/shape_logout"
+    android:layout_gravity="center"
+    >
+
+    <ImageView
+        android:id="@+id/clearChatLogo"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/delete"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete Conversation?"
+        android:gravity="center"
+        android:layout_below="@+id/clearChatLogo"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/hammersmith_one"
+        android:textSize="@dimen/_14sdp"
+        ></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/msg"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp"
+        >
+
+        <TextView
+            android:id="@+id/clearChatNoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:background="@color/red"
+            android:layout_weight="1"
+            android:fontFamily="@font/hammersmith_one"
+            android:textColor="@color/white"
+            android:text="NO"
+            android:layout_margin="@dimen/_5sdp"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp">
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/clearChatYesBtn"
+            android:layout_margin="@dimen/_5sdp"
+            android:fontFamily="@font/hammersmith_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="YES!"
+            android:textColor="@color/white"
+            android:padding="@dimen/_5sdp">>
+            >
+        </TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

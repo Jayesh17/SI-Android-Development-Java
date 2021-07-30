@@ -13,7 +13,10 @@ import com.example.chattogether.Models.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -50,10 +53,22 @@ public class MessageAdapter extends RecyclerView.Adapter {
         if(holder.getClass()==SenderViewHolder.class)
         {
             SenderViewHolder senderViewHolder = (SenderViewHolder) holder;
+            Date date = new Date(message.getTime());
+            String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date);
+            String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(date);
+            currentTime=currentTime.substring(0,5);
+            String fullDate = currentTime+" : "+currentDate;
+            senderViewHolder.MSGTime.setText(fullDate);
             senderViewHolder.msg.setText(message.getMessage());
         }
         else {
             ReceiverViewHolder receiverViewHolder = (ReceiverViewHolder) holder;
+            Date date = new Date(message.getTime());
+            String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date);
+            String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(date);
+            currentTime=currentTime.substring(0,5);
+            String fullDate = currentTime+" : "+currentDate;
+            receiverViewHolder.MSGTime.setText(fullDate);
             receiverViewHolder.msg.setText(message.getMessage());
         }
     }
@@ -78,20 +93,23 @@ public class MessageAdapter extends RecyclerView.Adapter {
     class SenderViewHolder extends RecyclerView.ViewHolder{
 
         TextView msg;
+        TextView MSGTime;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
             msg = itemView.findViewById(R.id.senderMSG);
+            MSGTime = itemView.findViewById(R.id.MSGtime);
         }
     }
 
     class ReceiverViewHolder extends RecyclerView.ViewHolder{
 
         TextView msg;
-
+        TextView MSGTime;
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             msg = itemView.findViewById(R.id.receiverMSG);
+            MSGTime = itemView.findViewById(R.id.MSGtime);
         }
     }
 }

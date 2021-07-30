@@ -13,10 +13,25 @@
         android:textColor="@color/white"
         android:padding="@dimen/_7sdp"
         android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
         android:text="@string/app_name"
         android:layout_margin="@dimen/_10sdp"
         android:fontFamily="@font/hammersmith_one"
         android:textSize="@dimen/_15sdp"
+        />
+    <TextView
+        android:id="@+id/MSGtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:padding="@dimen/_1sdp"
+        android:layout_below="@id/senderMSG"
+        android:layout_alignParentEnd="true"
+        android:text="@string/app_name"
+        android:layout_marginEnd="@dimen/_11sdp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:fontFamily="@font/hammersmith_one"
+        android:textSize="@dimen/_8sdp"
         />
 
 </RelativeLayout>
