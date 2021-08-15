@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity">
+    tools:context=".Activities.ChatActivity">
 
     <LinearLayout
         android:id="@+id/userData"
@@ -58,6 +58,7 @@
         />
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/viewProfileBtn"
+            android:onClick="viewProfile"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="@dimen/_5sdp"

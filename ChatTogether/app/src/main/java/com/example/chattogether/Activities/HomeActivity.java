@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chattogether.Adapters.UserAdapter;
 import com.example.chattogether.Models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.chattogether.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -47,9 +45,11 @@ public class HomeActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    public static String CHAT_USER_NAME = "com.example.chattogether.HomeActivity.USER_NAME";
-    public static String CHAT_USER_PROFILE = "com.example.chattogether.HomeActivity.USER_PROFILE";
-    public static String CHAT_USER_ID = "com.example.chattogether.HomeActivity.USER_ID";
+    public static String CHAT_USER_NAME = "com.example.chattogether.Activities.HomeActivity.USER_NAME";
+    public static String CHAT_USER_PROFILE = "com.example.chattogether.Activities.HomeActivity.USER_PROFILE";
+    public static String CHAT_USER_ID = "com.example.chattogether.Activities.HomeActivity.USER_ID";
+
+    public static String lastMsg;
 
     boolean doublePressToExit;
     public HomeActivity() {
@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
         adapter = new UserAdapter(HomeActivity.this,users);
         chatList.setAdapter(adapter);
-
+        lastMsg = "";
         database = FirebaseDatabase.getInstance("https://chattogether-19397-default-rtdb.firebaseio.com/");
         Log.d("HOME_C","aaaaa"+auth.getCurrentUser());
         databaseReferenceFriendList = database.getReference().child("FriendList").child(auth.getUid());

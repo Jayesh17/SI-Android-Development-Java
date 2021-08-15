@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.chattogether.Adapters.MessageAdapter;
 import com.example.chattogether.Models.Message;
 import com.example.chattogether.NotificationManagement.FcmNotificationsSender;
+import com.example.chattogether.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +68,8 @@ public class ChatActivity extends AppCompatActivity {
     String senderToken;
     String receiverToken;
 
+    public static final String USER_ID = "com.example.chattogether.Activities.ChatActivity.USERID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +86,24 @@ public class ChatActivity extends AppCompatActivity {
         msgList.setLayoutManager(linearLayoutManager);
         messageAdapter = new MessageAdapter(ChatActivity.this,messageList);
         msgList.setAdapter(messageAdapter);
-        new Handler().postDelayed(new Runnable() {
+
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                linearLayoutManager.scrollToPosition(msgList.getBottom());
+                if (((LinearLayoutManager) msgList.getLayoutManager())
+                        .findLastVisibleItemPosition() != messageAdapter.getItemCount() - 1) {
+                    msgList.scrollToPosition(messageAdapter.getItemCount() - 1);
+                    handler.postDelayed(this, 200);
+                }
             }
-        },100);
-
-
+        }, 200 /* change it if you want*/);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userName = snapshot.child("name").getValue().toString();
-
             }
 
             @Override
@@ -150,6 +158,8 @@ public class ChatActivity extends AppCompatActivity {
                                         .child("messages")
                                         .push().setValue(message);
 
+
+
                                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(receiverToken,userName,message.getMessage(),getApplicationContext(),ChatActivity.this);
 
                                 notificationsSender.SendNotifications();
@@ -203,7 +213,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 receiverToken = snapshot.getValue(String.class);
-                Log.d("TOKENS",receiverToken);
+               // Log.d("TOKENS",receiverToken);
             }
 
             @Override
@@ -221,21 +231,6 @@ public class ChatActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //msgList.smoothScrollToPosition(msgList.getBottom());
-        //messageAdapter.notifyDataSetChanged();
-
-    }
-
     public void clearChats(View v)
     {
         Dialog dialog = new Dialog(ChatActivity.this,R.style.clearChatDialog);
@@ -281,5 +276,12 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void viewProfile(View view)
+    {
+        Intent intent = new Intent(ChatActivity.this,userProfileActivity.class);
+        intent.putExtra(USER_ID,receiverUID);
+        startActivity(intent);
     }
 }

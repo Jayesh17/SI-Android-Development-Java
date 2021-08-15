@@ -79,4 +79,29 @@ public class LinkSet {
     {
         return LinkMaps.get(title);
     }
+
+    public boolean updateTitle(DBHandler db,String title, String name) {
+        String val = LinkMaps.get(title);
+        LinkMaps.remove(title);
+        LinkMaps.put(name,val);
+        linkStr.remove(title);
+        linkStr.add(name);
+
+        if(db.editByName(title,name))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean updateLink(DBHandler dbHandler, String title, String link) {
+        LinkMaps.replace(title,link);
+        if(dbHandler.editLink(title,link))
+        {
+            return true;
+        }
+        return false;
+    }
 }

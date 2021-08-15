@@ -14,7 +14,7 @@
         android:text="@string/app_name"
         android:layout_margin="@dimen/_10sdp"
         android:fontFamily="@font/hammersmith_one"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_13sdp"
         />
     <TextView
         android:id="@+id/MSGtime"

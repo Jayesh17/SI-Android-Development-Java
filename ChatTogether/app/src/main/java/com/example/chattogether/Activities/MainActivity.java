@@ -1,10 +1,12 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.chattogether.R;
 
 public class MainActivity extends AppCompatActivity {
 

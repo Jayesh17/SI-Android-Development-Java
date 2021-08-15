@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,8 +24,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chattogether.Adapters.ContactAdapter;
 import com.example.chattogether.Models.Contact;
 import com.example.chattogether.Models.User;
+import com.example.chattogether.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,13 +61,18 @@ public class AddFriendActivity extends AppCompatActivity {
 
     final int CONTACT_PERMISSION_CODE = 1;
 
+    public static Activity act;
+    public static Context app_context;
+
     public void setInitialState()
     {
         context = AddFriendActivity.this;
+        app_context = getApplicationContext();
         contactsListView = findViewById(R.id.contactsListView);
         contactsListView.setLayoutManager(new LinearLayoutManager(this));
         per_status = findViewById(R.id.per_status);
         auth = FirebaseAuth.getInstance();
+        act = AddFriendActivity.this;
 
         contactList = new ArrayList<>();
         contactMap = new HashMap<>();
@@ -80,6 +88,7 @@ public class AddFriendActivity extends AppCompatActivity {
         per_dialog = new ProgressDialog(this);
         per_dialog.setCancelable(false);
         per_dialog.setMessage("Fetching Contacts...");
+        per_dialog.show();
 
         per_status.setVisibility(View.GONE);
     }
@@ -148,6 +157,7 @@ public class AddFriendActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //hasPermission = false;
+                    per_dialog.dismiss();
                     per_status.setVisibility(View.VISIBLE);
                     dialog.dismiss();
                 }
@@ -165,6 +175,7 @@ public class AddFriendActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(getBaseContext(),"Permission denied.",Toast.LENGTH_SHORT).show();
+                per_dialog.dismiss();
                 per_status.setVisibility(View.VISIBLE);
             }
         }
@@ -184,15 +195,15 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private void getContactDetails() {
 
-        per_dialog.show();
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
         while (cursor.moveToNext())
         {
             String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             number = number.replaceAll("\\s", "");
             number = number.replaceAll("-", "");
-            Log.d("SAVED_CONTACTS",number);
-            if(contactMap.containsKey(number))
+            String num = number.substring(3);
+            //Log.d("SAVED_CONTACTS",num+" "+number);
+            if(contactMap.containsKey(number) || contactMap.containsKey(num))
             {
                 String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String uid = contactMap.get(number);

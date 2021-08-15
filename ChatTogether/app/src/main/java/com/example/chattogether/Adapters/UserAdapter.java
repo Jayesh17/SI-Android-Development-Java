@@ -1,6 +1,5 @@
-package com.example.chattogether;
+package com.example.chattogether.Adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -12,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chattogether.Activities.ChatActivity;
+import com.example.chattogether.Activities.HomeActivity;
 import com.example.chattogether.Models.User;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.chattogether.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,11 +49,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.userName.setText(user.getName());
             holder.userStatus.setText(user.getStatus());
             Picasso.get().load(user.getProfileUri()).into(holder.userProfile);
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(homeActivity,ChatActivity.class);
+                    Intent intent = new Intent(homeActivity, ChatActivity.class);
                     intent.putExtra(homeActivity.CHAT_USER_NAME,user.getName());
                     intent.putExtra(homeActivity.CHAT_USER_PROFILE,user.getProfileUri());
                     intent.putExtra(homeActivity.CHAT_USER_ID,user.getUID());

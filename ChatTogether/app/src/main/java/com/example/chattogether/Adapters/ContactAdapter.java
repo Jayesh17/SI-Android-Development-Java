@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,16 +11,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chattogether.Activities.AddFriendActivity;
 import com.example.chattogether.Models.Contact;
+import com.example.chattogether.NotificationManagement.FcmNotificationsSender;
+import com.example.chattogether.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ContactAdapter extends RecyclerView.Adapter {
 
@@ -57,13 +61,13 @@ public class ContactAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 DatabaseReference databaseReference = database.getReference().child("FriendList").child(auth.getUid());
-                databaseReference.child("friend").setValue(contact.getUserID()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseReference.child(auth.getUid()+contact.getUserID()).setValue(contact.getUserID()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful())
                         {
 
-                            database.getReference().child("FriendList").child(contact.getUserID()).child("friend").setValue(auth.getUid()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            database.getReference().child("FriendList").child(contact.getUserID()).child(contact.getUserID()+auth.getUid()).setValue(auth.getUid()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful())
@@ -71,6 +75,30 @@ public class ContactAdapter extends RecyclerView.Adapter {
                                         Toast.makeText(AddFriendActivity.context,"Friend Added Successfully",Toast.LENGTH_LONG).show();
                                         contactViewHolder.addAsFriendBtn.setClickable(false);
                                         contactViewHolder.addAsFriendBtn.setEnabled(false);
+
+                                        database.getReference().child("tokens").child(contact.getUserID()).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String token = snapshot.getValue(String.class);
+                                                database.getReference().child("user").child(auth.getUid()).child("name").addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        String username = snapshot.getValue(String.class);
+                                                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(token,username+" has added you as a friend.","Tap to chat!",AddFriendActivity.app_context,AddFriendActivity.act);
+                                                        notificationsSender.SendNotifications();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                        Toast.makeText(AddFriendActivity.context,"Something Went Wrong while adding friend.",Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(AddFriendActivity.context,"Something Went Wrong while adding friend.",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
                                     }
                                     else {
                                         Toast.makeText(AddFriendActivity.context,"Something Went Wrong while adding friend.",Toast.LENGTH_LONG).show();
@@ -104,8 +132,6 @@ public class ContactAdapter extends RecyclerView.Adapter {
             addAsFriendBtn = itemView.findViewById(R.id.addAsFriendBtn);
             contactName = itemView.findViewById(R.id.contactName);
             contactNumber = itemView.findViewById(R.id.contactNumber);
-
-
         }
     }
 }

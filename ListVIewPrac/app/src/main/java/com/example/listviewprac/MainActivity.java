@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static DBHandler myDBHandler;
     private static LinkSet linksets;
+    ArrayAdapter<String> adapter;
 
     public void manageBtn(View view)
     {
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         {
             msg.setVisibility(View.GONE);
             ListView links = findViewById(R.id.linkLists);
-            ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,linksets.getLinkStr());
+            adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,linksets.getLinkStr());
             links.setAdapter(adapter);
 
             links.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,5 +116,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setIntialState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

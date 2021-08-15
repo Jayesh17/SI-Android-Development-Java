@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -9,26 +9,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.chattogether.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -137,8 +133,6 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
                                     if (!TextUtils.isEmpty(token)) {
                                         tokenReference.child(auth.getUid()).setValue(token);
-                                    } else{
-
                                     }
                                 }).addOnFailureListener(e -> {
                                     //handle e
@@ -146,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //handle cancel
                                 });
                                 dialog.dismiss();
-                                Toast.makeText(LoginActivity.this,"Sign in successfull",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this,"Sign in successful",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                                 finish();
                             }

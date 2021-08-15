@@ -1,4 +1,4 @@
-package com.example.chattogether;
+package com.example.chattogether.Activities;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.chattogether.BasicOperations;
+import com.example.chattogether.ConditionCheckers;
+import com.example.chattogether.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,8 +32,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.pd.chocobar.ChocoBar;
 
 import java.util.Random;
@@ -70,13 +71,13 @@ public class RegistrationActivity extends AppCompatActivity {
     BasicOperations operations;
     Handler mailHandler;
 
-    public static String USER_MAIL_KEY="com.example.chattogether.RegistrationActivity.USER_MAIL";
-    public static String USER_MAIL_OTP="com.example.chattogether.RegistrationActivity.USER_OTP";
-    public static String USER_MAIL_PASS="com.example.chattogether.RegistrationActivity.USER_PASS";
-    public static String USER_MAIL_PHONE="com.example.chattogether.RegistrationActivity.USER_PHONE";
-    public static String USER_MAIL_NAME="com.example.chattogether.RegistrationActivity.USER_NAME";
-    public static String USER_MAIL_PROFILE="com.example.chattogether.RegistrationActivity.USER_PROFILE";
-    public static String USER_MAIL_STATUS="com.example.chattogether.RegistrationActivity.USER_STATUS";
+    public static String USER_MAIL_KEY="com.example.chattogether.Activities.RegistrationActivity.USER_MAIL";
+    public static String USER_MAIL_OTP="com.example.chattogether.Activities.RegistrationActivity.USER_OTP";
+    public static String USER_MAIL_PASS="com.example.chattogether.Activities.RegistrationActivity.USER_PASS";
+    public static String USER_MAIL_PHONE="com.example.chattogether.Activities.RegistrationActivity.USER_PHONE";
+    public static String USER_MAIL_NAME="com.example.chattogether.Activities.RegistrationActivity.USER_NAME";
+    public static String USER_MAIL_PROFILE="com.example.chattogether.Activities.RegistrationActivity.USER_PROFILE";
+    public static String USER_MAIL_STATUS="com.example.chattogether.Activities.RegistrationActivity.USER_STATUS";
 
     public int STORAGE_PERMISSION_CODE = 1;
 

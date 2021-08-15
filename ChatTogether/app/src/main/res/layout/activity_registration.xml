@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity"
+    tools:context=".Activities.RegistrationActivity"
     >
 
     <ScrollView
@@ -247,7 +247,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="100dp"
                     android:backgroundTint="#F4511E"
-                    android:text="Register"
+                    android:text="Ok !"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="20dp" />
 

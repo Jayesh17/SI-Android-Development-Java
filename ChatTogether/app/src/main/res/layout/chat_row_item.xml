@@ -39,6 +39,8 @@
                 android:id="@+id/userStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:fontFamily="@font/hammersmith_one"
                 android:text="Status"

@@ -109,4 +109,51 @@ public class DBHandler extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
+
+    public boolean editByName(String title, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(Params.TITLE,name);
+            int rows = db.update(Params.LINKS_TBL,values,Params.TITLE+"=?",new String[]{title});
+            if(rows==1)
+            {
+                Log.d("inDB","success");
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            Log.d("logsERR",e.toString());
+            return false;
+        }
+        finally {
+            db.close();
+        }
+    }
+
+    public boolean editLink(String title, String link) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(Params.LINK,link);
+            int rows = db.update(Params.LINKS_TBL,values,Params.TITLE+"=?",new String[]{title});
+            if(rows==1)
+            {
+                Log.d("inDB","success");
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            Log.d("logsERR",e.toString());
+            return false;
+        }
+        finally {
+            db.close();
+        }
+    }
 }
